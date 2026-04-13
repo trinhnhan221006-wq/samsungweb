@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - samsungweb</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/samsungweb.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    @await RenderSectionAsync("Styles", required: false)
+
+    <style>
+            /* Áp dụng phông chữ mới cho toàn bộ trang web */
+            body {
+                font-family: 'Inter', sans-serif !important;
+            }
+
+            /* CSS cho Mega Menu trải dài toàn màn hình */
+            .has-megamenu { position: static !important; }
+            .megamenu { 
+                left: 0; 
+                right: 0; 
+                width: 100%; 
+                top: 100%; 
+                border-radius: 0; 
+                background: #fff;
+            }
+            .nav-item:hover .dropdown-menu { display: block; } /* Hiện menu khi rê chuột (hover) */
+
+    </style>
+
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="ss-header">
+    @* 1. Menu phụ phía trên (Hỗ trợ, For Business) *@
+    <div class="ss-top-nav">
+        <a href="#">Hỗ trợ</a>
+        <a href="#">For Business</a>
+    </div>
+
+    @* 2. Thanh điều hướng chính *@
+    <div class="ss-main-nav">
+        @* Logo duy nhất *@
+        <div class="ss-logo">
+            <a asp-controller="Home" asp-action="Index">SAMSUNG</a>
+        </div>
+
+        @* Menu danh mục lấy từ Database *@
+        <nav class="ss-menu">
+            <ul>
+                <li class="has-mega-menu">
+    <a asp-controller="Home" asp-action="Store">Cửa hàng</a>
+
+    @* Đây là khối Menu sẽ sổ xuống khi bạn di chuột vào Cửa hàng *@
+    <div class="ss-mega-menu">
+        <div class="mega-menu-content">
+            @* Cột bên trái: Các sản phẩm hot hoặc Banner *@
+            <div class="mega-products-grid">
+                <div class="text-center p-4">
+                    <h5 class="fw-bold">Chào mừng đến với Samsung Store</h5>
+                    <p class="text-muted">Khám phá những công nghệ mới nhất từ chúng tôi.</p>
+                    <a asp-action="Store" class="btn btn-outline-dark rounded-pill px-4">Xem tất cả sản phẩm</a>
+                </div>
+            </div>
+
+            @* Cột bên phải: Các lối tắt nhanh *@
+            <div class="mega-links">
+                <h4 class="mega-links-title">TRUY CẬP NHANH</h4>
+                <ul>
+                    <li><a href="#">Sản phẩm mới ra mắt</a></li>
+                    <li><a href="#">Chương trình ưu đãi</a></li>
+                    <li><a href="#">Hỗ trợ mua hàng</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</li>
+                @* Chỉ gọi duy nhất Component này, không gõ tay thêm Di động/Điện thoại *@
+                @await Component.InvokeAsync("CategoryMenu")
+            </ul>
+        </nav>
+
+        @* Cụm tìm kiếm và icon *@
+        <div class="ss-actions">
+            <div class="ss-search-bar">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Tìm kiếm">
+            </div>
+            <a href="#" class="action-icon"><i class="bi bi-cart3 text-white"></i></a>
+            
+            @* Icon người dùng thông minh *@
+            <div class="action-icon">
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </div>
+</header>
+    <div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="ss-footer">
+        <div class="ss-footer-container">
+        
+            <div class="ss-footer-links">
+            
+                <div class="ss-footer-col">
+                    <h3 class="ss-footer-title">Mua Trực Tuyến</h3>
+                    <ul>
+                        <li><a href="#">Trang chủ Mua trực tuyến</a></li>
+                        <li><a href="#">Mua Hàng Trực Tiếp Ưu Đãi Vượt Trội</a></li>
+                        <li><a href="#">SmartThings</a></li>
+                        <li><a href="#">Khám phá AI</a></li>
+                        <li><a href="#">Samsung Care+</a></li>
+                        <li><a href="#">Ưu đãi nhân viên đối tác</a></li>
+                        <li><a href="#">Ưu đãi VIP Mall</a></li>
+                        <li><a href="#">Ưu đãi Chính phủ</a></li>
+                        <li><a href="#">Ưu đãi HSSV & ngành Giáo dục</a></li>
+                        <li><a href="#">Samsung 68</a></li>
+                        <li><a href="#">Samsung West Lake</a></li>
+                        <li><a href="#">Khám Phá</a></li>
+                    </ul>
+                </div>
+
+                <div class="ss-footer-col">
+                    <h3 class="ss-footer-title">Sản Phẩm</h3>
+                    <ul>
+                        <li><a href="#">Điện thoại thông minh Galaxy</a></li>
+                        <li><a href="#">Galaxy Tab</a></li>
+                        <li><a href="#">Galaxy Watch</a></li>
+                        <li><a href="#">Galaxy Buds</a></li>
+                        <li><a href="#">TVs</a></li>
+                        <li><a href="#">Máy Chiếu</a></li>
+                        <li><a href="#">Thiết Bị Âm Thanh</a></li>
+                        <li><a href="#">Tủ Lạnh</a></li>
+                        <li><a href="#">Máy giặt & Sấy</a></li>
+                        <li><a href="#">Máy Hút Bụi</a></li>
+                        <li><a href="#">Màn Hình</a></li>
+                        <li><a href="#">Thiết bị lưu trữ bộ nhớ</a></li>
+                        <li><a href="#">Phụ kiện</a></li>
+                    </ul>
+                </div>
+
+                <div class="ss-footer-col">
+                    <h3 class="ss-footer-title">Bạn Cần Hỗ Trợ?</h3>
+                    <ul>
+                        <li><a href="#">Trang chủ Hỗ Trợ</a></li>
+                        <li><a href="#">Hướng dẫn sử dụng & Software</a></li>
+                        <li><a href="#">Tìm kiếm</a></li>
+                        <li><a href="#">FAQ Hỗ trợ mua trực tuyến</a></li>
+                        <li><a href="#">Thông tin Bảo hành</a></li>
+                        <li><a href="#">Bảng giá linh kiện</a></li>
+                        <li><a href="#">Tìm Trung Tâm Bảo Hành</a></li>
+                        <li><a href="#">Tình Trạng Sửa Chữa</a></li>
+                        <li><a href="#">Tư Vấn Trực Tuyến</a></li>
+                        <li><a href="#">Gọi Điện Thoại</a></li>
+                        <li><a href="#">Ngôn Ngữ Ký Hiệu</a></li>
+                        <li><a href="#">Gửi thư cho Ban Giám đốc <i class="bi bi-box-arrow-up-right"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="ss-footer-col">
+                    <h3 class="ss-footer-title">Tài khoản</h3>
+                    <ul>
+                        <li><a href="#">Vì sao nên tạo Samsung Account</a></li>
+                        <li><a href="#">Samsung Rewards</a></li>
+                        <li><a href="#">Samsung Members</a></li>
+                        <li><a href="#">Đơn hàng của tôi <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="#">Trang của tôi</a></li>
+                        <li><a href="#">Sản phẩm của tôi</a></li>
+                        <li><a href="#">Khuyến Mãi <i class="bi bi-box-arrow-up-right"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="ss-footer-col border-none">
+                    <h3 class="ss-footer-title">Sự bền vững</h3>
+                    <ul>
+                        <li><a href="#">Môi trường</a></li>
+                        <li><a href="#">Bảo mật & Quyền riêng tư</a></li>
+                        <li><a href="#">Trợ năng</a></li>
+                        <li><a href="#">Nơi làm việc Hòa nhập</a></li>
+                        <li><a href="#">Công dân Doanh nghiệp <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="#">Tính bền vững của Doanh nghiệp <i class="bi bi-box-arrow-up-right"></i></a></li>
+                    </ul>
+
+                    <h3 class="ss-footer-title mt-group">Giới thiệu về chúng tôi</h3>
+                    <ul>
+                        <li><a href="#">Thông tin về Công ty</a></li>
+                        <li><a href="#">Lĩnh vực kinh doanh</a></li>
+                        <li><a href="#">Nhận diện thương hiệu</a></li>
+                        <li><a href="#">Nghề nghiệp</a></li>
+                        <li><a href="#">Quan hệ với nhà đầu tư <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="#">Newsroom <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="#">Đạo đức</a></li>
+                        <li><a href="#">Samsung Design <i class="bi bi-box-arrow-up-right"></i></a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+        </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

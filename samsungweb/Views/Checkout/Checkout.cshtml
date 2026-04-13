@@ -1,0 +1,67 @@
+﻿@model ĐangNhap.Models.CheckoutModel
+
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<h2>Trang Thanh Toán</h2>
+
+<form asp-action="Index" method="post">
+
+    <h3>Thông tin sản phẩm</h3>
+
+    <p>
+        Tên sản phẩm: <b>@Model.ProductName</b>
+    </p>
+
+    <p>
+        Giá: <b>@Model.Price.ToString("N0") VNĐ</b>
+    </p>
+
+    <hr />
+
+    <h3>Thông tin khách hàng</h3>
+
+    <div>
+        <label>Họ tên</label>
+        <input asp-for="CustomerName" class="form-control"/>
+    </div>
+
+    <div>
+        <label>Số điện thoại</label>
+        <input asp-for="Phone" class="form-control"/>
+    </div>
+
+    <div>
+        <label>Địa chỉ</label>
+        <input asp-for="Address" class="form-control"/>
+    </div>
+
+    <hr />
+
+    <h3>Phương thức thanh toán</h3>
+
+    <div>
+        <input type="radio" name="PaymentMethod" value="COD" checked /> Thanh toán khi nhận hàng
+    </div>
+
+    <div>
+        <input type="radio" name="PaymentMethod" value="Banking" /> Chuyển khoản ngân hàng
+    </div>
+
+    <div>
+        <input type="radio" name="PaymentMethod" value="Momo" /> Ví MoMo
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Xác nhận thanh toán
+    </button>
+
+</form>
+
+@if (ViewBag.Message != null)
+{
+        <h3 style="color:green">@ViewBag.Message</h3>
+}

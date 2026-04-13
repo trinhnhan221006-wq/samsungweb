@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Samsung UI</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- BANNER -->
+    <section class="ss-hero-banner">
+        <div class="ss-banner-content">
+            <p class="ss-banner-desc">
+                Ưu đãi đổi x10 điểm Samsung rewards cho<br>
+                màu độc quyền. Áp dụng đến 16.03.2026
+            </p>
+        
+            <div class="ss-banner-buttons">
+                <a href="#" class="btn-link">Tìm hiểu thêm</a>
+                <a href="#" class="btn-outline">Mua</a>
+            </div>
+        </div>
+        </section>
+  
+
+    <!-- DANH SÁCH SẢN PHẨM 1 -->
+    <section class="ss-product-grid-section">
+        <div class="ss-product-grid">
+        
+            <div class="ss-product-card">
+                <h3 class="ss-product-title">Galaxy Z Fold7</h3>
+                <div class="ss-product-image">
+                    <img src="~/images/galaxy-z-fold-7.png" alt="Galaxy Z Fold7">
+                        <a href="#" class="btn-buy-hover">Mua</a>
+                    </div>
+                </div>
+
+                <div class="ss-product-card">
+                    <h3 class="ss-product-title">Galaxy Buds4 Pro</h3>
+                    <div class="ss-product-image">
+                        <img src="~/images/buds.png" alt="Galaxy Buds4 Pro">
+                            <a href="#" class="btn-buy-hover">Mua</a>
+                        </div>
+                    </div>
+
+                    <div class="ss-product-card">
+                        <h3 class="ss-product-title">Galaxy Tab S11 Ultra</h3>
+                        <div class="ss-product-image">
+                            <img src="~/images/tabs.png" alt="Galaxy Tab S11 Ultra">
+                                <a href="#" class="btn-buy-hover">Mua</a>
+                            </div>
+                        </div>
+
+                        <div class="ss-product-card">
+                            <h3 class="ss-product-title">Galaxy Watch8</h3>
+                            <div class="ss-product-image">
+                                <img src="~/images/watch.png" alt="Galaxy Watch8">
+                                    <a href="#" class="btn-buy-hover">Mua</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+
+                      <!-- VIDEO / TV -->
+                        <section class="ss-video-section">
+                            <video class="ss-bg-video" id="aiTvVideo" autoplay loop muted playsinline>
+                                <source src="/video/videomp4.webm" type="video/mp4">
+                                    </video>
+
+                                    <div class="ss-video-content">
+                                        <div class="ss-text-block">
+                                            <h2 class="ss-video-title">2025 AI TVs</h2>
+                                            <p class="ss-video-desc">Khám phá những AI TVs mới</p>
+            
+                                            <div class="ss-video-actions">
+                                                <a href="#" class="btn-link-dark">Tìm hiểu thêm</a>
+                                                <a href="#" class="btn-outline-dark">Xem tất cả</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="ss-video-control" id="playPauseBtn" onclick="togglePlay()">
+                                        <i class="bi bi-pause-circle"></i>
+                                    </button>
+                                </section>
+
+                    @section Scripts {
+                        <script>
+                                function togglePlay() {
+                                    var video = document.getElementById("aiTvVideo");
+                                    var btnIcon = document.querySelector("#playPauseBtn i");
+
+                                    if (video.paused) {
+                                        video.play();
+                                        // Đổi icon thành nút Pause
+                                        btnIcon.className = "bi bi-pause-circle";
+                                    } else {
+                                        video.pause();
+                                        // Đổi icon thành nút Play
+                                        btnIcon.className = "bi bi-play-circle";
+                                    }
+                                }
+                        </script>
+                    }
+    <!-- DANH SÁCH SẢN PHẨM 2 -->
+    <section class="ss-product-grid-section">
+        <div class="ss-product-grid">
+        
+            <div class="ss-product-card">
+                <h3 class="ss-product-title">Neo QLED 8K</h3>
+                <div class="ss-product-image">
+                        <img src="~/images/Neo QLED 8K.png" alt="Neo QLED 8K">
+                        <a href="#" class="btn-buy-hover">Mua</a>
+                    </div>
+                </div>
+
+                <div class="ss-product-card">
+                    <h3 class="ss-product-title">The Frame</h3>
+                    <div class="ss-product-image">
+                          <img src="~/images/Tranh.png" alt="The Frame">
+                     <a href="#" class="btn-buy-hover">Mua</a>
+                        </div>
+                    </div>
+
+                    <div class="ss-product-card">
+                        <h3 class="ss-product-title">Loa Thanh Q-series</h3>
+                        <div class="ss-product-image">
+                                            <img src="~/images/Loa.png" alt="Loa Thanh Q-series">
+                        <a href="#" class="btn-buy-hover">Mua</a>
+                            </div>
+                        </div>
+
+                        <div class="ss-product-card">
+                            <h3 class="ss-product-title">Smart Moniter M9</h3>
+                            <div class="ss-product-image">
+                                                <img src="~/images/Smart Monitor M9.png" alt="Smart Moniter M9">
+                            <a href="#" class="btn-buy-hover">Mua</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                                    <a href="#" class="scroll-top-btn"><i class="bi bi-arrow-up"></i></a>
+    
+</body>
+</html>

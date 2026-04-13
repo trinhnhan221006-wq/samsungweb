@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="dropdown">
+        @* GIỮ NGUYÊN ICON NGƯỜI CỦA BẠN - Chỉ thêm thuộc tính dropdown *@
+        <a class="nav-link dropdown-toggle text-dark border-0 bg-transparent" href="#" id="userMenu" data-bs-toggle="dropdown">
+            <i class="bi bi-person fs-4"></i>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+            <li class="px-3 py-2 small text-muted">Chào, <b>@User.Identity?.Name</b></li>
+            <li><hr class="dropdown-divider"></li>
+            
+            @* NẾU LÀ ADMIN THÌ MỚI HIỆN NÚT NÀY *@
+            @if (User.IsInRole("Admin"))
+            {
+                <li><a class="dropdown-item" asp-controller="Products" asp-action="Index">⚙️ Trang Quản trị</a></li>
+                <li><hr class="dropdown-divider"></li>
+            }
+
+            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Hồ sơ cá nhân</a></li>
+            <li>
+                @* Chúng ta dùng một cái Form ẩn để gửi lệnh POST đi *@
+                <form id="logoutForm" asp-controller="Login" asp-action="Logout"
+                      asp-route-returnUrl="@Url.Action("Index", "Home")"
+                      method="post" class="d-inline">
+                    <button type="submit" class="dropdown-item py-2 text-danger fw-bold border-0 bg-transparent w-100 text-start">
+                        <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    @* NẾU CHƯA ĐĂNG NHẬP: Bấm vào icon sẽ bay thẳng đến trang Login của bạn *@
+    <a class="nav-link text-dark" asp-controller="Login" asp-action="Login">
+        <i class="bi bi-person fs-4"></i>
+    </a>
+}

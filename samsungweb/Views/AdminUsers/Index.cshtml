@@ -1,0 +1,45 @@
+﻿@model List<samsungweb.Models.UserRoleViewModel>
+@{
+    ViewData["Title"] = "Quản lý Tài khoản";
+    Layout = "_LayoutAdmin"; // Mặc chiếc áo Admin Dashboard
+}
+
+<div class="container-fluid mt-4">
+    <h2 class="mb-4 fw-bold">👥 Quản lý Tài khoản & Phân quyền</h2>
+    
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">Email tài khoản</th>
+                        <th>Chức vụ hiện tại</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td class="ps-3 fw-bold">@user.Email</td>
+                            <td>
+                                @if (user.Roles.Any())
+                                {
+                                    // In ra các chức vụ, ví dụ: Admin, Manager...
+                                    <span class="badge bg-success" style="font-size:14px">@string.Join(", ", user.Roles)</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Khách hàng thường</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="AssignRole" asp-route-userId="@user.UserId" class="btn btn-sm btn-primary">Cấp Quyền</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

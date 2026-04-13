@@ -1,0 +1,267 @@
+﻿/* =========================================
+   GIAO DIỆN TRANG CỬA HÀNG (STORE PAGE)
+   ========================================= */
+
+.store-page-wrapper {
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+body, html {
+    font-family: 'Inter', sans-serif !important;
+    -webkit-font-smoothing: antialiased; /* Làm chữ mượt hơn trên máy Mac/iPhone */
+}
+
+/* --- Khu vực Nửa trên (Nền trắng) --- */
+.store-header-section {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 60px 0 40px 0;
+}
+
+.store-page-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 50px;
+    letter-spacing: -1px;
+}
+
+/* Bộ lọc (Filter Boxes) */
+.store-category-filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Khoảng cách giữa các ô */
+    flex-wrap: wrap; /* Cho phép rớt dòng nếu màn hình nhỏ */
+    padding: 0 5%;
+}
+
+.filter-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    height: 110px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0; /* Viền xám nhạt */
+    border-radius: 12px;
+    text-decoration: none !important;
+    color: #000;
+    transition: all 0.2s ease;
+}
+
+    .filter-box i {
+        font-size: 30px;
+        margin-bottom: 10px;
+        color: #555;
+    }
+
+    .filter-box span {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    /* Hiệu ứng khi hover và khi ô được chọn (Active) */
+    .filter-box:hover {
+        background-color: #f7f7f7;
+    }
+
+    .filter-box.active {
+        border: 2px solid #000000; /* Viền đen đậm */
+    }
+
+        .filter-box.active i {
+            color: #000;
+        }
+
+/* --- Khu vực Nửa dưới (Nền xám) --- */
+.store-products-section {
+    background-color: #f4f4f4; /* Màu xám giống ảnh */
+    padding: 60px 5%;
+}
+
+/* Cấu trúc thanh cuộn ngang (Carousel) */
+.store-products-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Tạo thanh cuộn ngang nếu nội dung tràn */
+    padding-bottom: 20px;
+    /* Thiết lập vuốt mượt (Snap) */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+
+    /* Ẩn thanh cuộn mặc định cho đẹp (tùy chọn) */
+    .store-products-carousel::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .store-products-carousel::-webkit-scrollbar-thumb {
+        background: #cccccc;
+        border-radius: 10px;
+    }
+
+/* Thẻ sản phẩm */
+.store-product-card {
+    background-color: #ffffff;
+    border-radius: 24px; /* Bo góc to */
+    padding: 30px;
+    min-width: 320px; /* Độ rộng cố định để không bị ép nhỏ lại */
+    flex: 0 0 auto; /* Không cho thẻ tự co giãn */
+    scroll-snap-align: start; /* Điểm dừng khi cuộn */
+
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02); /* Đổ bóng cực nhẹ */
+}
+
+.store-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-align: left; /* Tựa đề căn trái */
+}
+
+.store-product-card img {
+    width: 75%;
+    margin: 0 auto;
+    align-self: center; /* Đẩy ảnh ra giữa thẻ */
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.store-product-card:hover img {
+    transform: scale(1.05); /* Phóng to ảnh nhẹ khi hover */
+}
+
+
+
+/* --- Cập nhật lại hình ảnh để chừa chỗ cho giá và màu sắc --- */
+.store-product-card img {
+    width: 85%;
+    max-height: 200px;
+    margin: 0 auto 15px auto; /* Chỉnh lại margin đáy */
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+/* --- Tùy chọn (Màu sắc / Kích thước) --- */
+.store-card-options {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    min-height: 18px; /* Đảm bảo các thẻ đều nhau dù có hay không có option */
+}
+
+/* Kiểu dáng chấm màu */
+.color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Kiểu dáng chữ kích thước (TV) */
+.text-sizes span {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+}
+
+/* --- Giá tiền --- */
+.store-card-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    /* Mẹo cực hay: Dùng margin-top: auto để luôn đẩy dòng giá xuống sát đáy thẻ, bất kể nội dung trên dài hay ngắn */
+    margin-top: auto;
+    text-align: left;
+}
+
+/* =========================================
+   THANH TIẾN TRÌNH VÀ NÚT ĐIỀU HƯỚNG
+   ========================================= */
+.store-carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    position: relative;
+}
+
+/* Đường ray thanh cuộn */
+.carousel-progress-track {
+    width: 50%; /* Độ dài của thanh */
+    height: 2px;
+    background-color: #e5e5e5;
+    position: relative;
+    border-radius: 2px;
+}
+
+/* Thanh trượt màu đen bên trong */
+.carousel-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #000;
+    border-radius: 2px;
+    transition: width 0.3s;
+}
+
+/* Cụm nút mũi tên (Đẩy sang phải) */
+.carousel-nav-buttons {
+    position: absolute;
+    right: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #dcdcdc;
+    background-color: #ffffff;
+    color: #000;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+    .nav-btn:hover {
+        border-color: #000000;
+    }
+
+/* =========================================
+   NÚT CUỘN LÊN ĐẦU TRANG
+   ========================================= */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    background-color: #888888; /* Màu xám giống ảnh */
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    text-decoration: none;
+    z-index: 1000; /* Nổi lên trên mọi thành phần */
+    transition: background-color 0.3s;
+}
+
+    .scroll-top-btn:hover {
+        background-color: #555555;
+        color: #ffffff;
+    }

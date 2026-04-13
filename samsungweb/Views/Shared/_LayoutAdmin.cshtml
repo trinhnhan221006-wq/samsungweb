@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quản trị Samsung</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
+    
+    <style>
+        body { min-height: 100vh; display: flex; flex-direction: row; margin: 0; }
+        .sidebar { background-color: #212529; width: 250px; color: #fff; padding-top: 20px; transition: all 0.3s; }
+        .sidebar .logo { font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 20px; letter-spacing: 2px; }
+        .sidebar a { color: #adb5bd; text-decoration: none; padding: 12px 20px; display: block; font-size: 16px; }
+        .sidebar a:hover, .sidebar a.active { color: #fff; background-color: #343a40; border-left: 4px solid #0d6efd; }
+        .main-content { flex-grow: 1; background-color: #f8f9fa; padding: 30px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">SAMSUNG ADMIN</div>
+        <hr class="text-secondary" />
+        
+        <div class="nav flex-column">
+            <a asp-controller="Products" asp-action="Index">
+                📦 Quản lý Sản phẩm
+            </a>
+            
+            <a asp-controller="Categories" asp-action="Index">
+                📁 Quản lý Danh mục
+            </a>
+            <a asp-controller="AdminUsers" asp-action="Index">
+                👥 Quản lý Tài khoản
+            </a>
+
+            <hr class="text-secondary" />
+
+            <a asp-controller="Home" asp-action="Index" class="text-warning mt-3">
+                ⬅️ Quay lại Cửa hàng
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        @RenderBody() 
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

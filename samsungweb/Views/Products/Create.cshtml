@@ -1,0 +1,71 @@
+﻿@model samsungweb.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_LayoutAdmin";
+}
+
+@section Styles {
+    <style>
+        .ss-header {
+            position: relative !important; 
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #ebebeb;
+        }
+        .ss-header a, .ss-header .ss-search-bar i { color: #000000 !important; }
+        
+        /* Đẩy nội dung khung Quản trị xích xuống cho dễ nhìn */
+        .admin-container {
+            padding: 50px 5%;
+            min-height: 60vh;
+        }
+    </style>
+}
+
+<div class="admin-container">
+    <h2>Quản lý Sản phẩm</h2>
+    
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-group mb-3">
+                <label class="control-label fw-bold">Hình ảnh sản phẩm</label>
+                <input type="file" name="frontImage" class="form-control" accept="image/*" />
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="control-label fw-bold">Danh mục sản phẩm</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+                <option value="">-- Chọn danh mục --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</div>

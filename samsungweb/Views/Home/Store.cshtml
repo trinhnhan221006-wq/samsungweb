@@ -1,0 +1,120 @@
+﻿@model IEnumerable<samsungweb.Models.Product>
+@{
+    ViewData["Title"] = "Cửa hàng Samsung";
+    Layout = "_Layout";
+    var categories = ViewBag.Categories as IEnumerable<samsungweb.Models.Category>;
+    int? currentCatId = ViewBag.CurrentCategory as int?;
+}
+
+@* Liên kết trực tiếp file CSS chuyên biệt cho trang Store *@
+@section Styles {
+    <link rel="stylesheet" href="~/css/store.css" />
+}
+
+@functions {
+    string GetIcon(string name)
+    {
+        return name switch
+        {
+            "Di động" => "bi-phone",
+            "TV & AV" => "bi-tv",
+            "Gia dụng" => "bi-washer",
+            "IT" => "bi-laptop",
+            "Thiết bị đeo" => "bi-watch",
+            "Phụ kiện" => "bi-headphones",
+            _ => "bi-grid"
+        };
+    }
+}
+
+<div class="store-page-wrapper">
+    
+    @* --- PHẦN 1: NỬA TRÊN (NỀN TRẮNG) --- *@
+    <section class="store-header-section">
+        <h1 class="store-page-title">Lựa chọn tối ưu chuẩn sống của bạn</h1>
+
+        @* Bộ lọc Icon (Filter Boxes) *@
+        <div class="store-category-filters">
+            @* Nút Mới & Nổi bật *@
+            <a asp-action="Store" class="filter-box @(currentCatId == null ? "active" : "")">
+                <i class="bi bi-star"></i>
+                <span>Mới & Nổi bật</span>
+            </a>
+
+            @if (categories != null)
+            {
+                foreach (var cat in categories)
+                {
+                    <a asp-action="Store" asp-route-categoryId="@cat.Id"
+                           class="filter-box @(currentCatId == cat.Id ? "active" : "")">
+                        <i class="bi @GetIcon(cat.Name)"></i>
+                        <span>@cat.Name</span>
+                    </a>
+                }
+            }
+        </div>
+    </section>
+
+    @* --- PHẦN 2: NỬA DƯỚI (NỀN XÁM) --- *@
+    <section class="store-products-section">
+        
+        @* Cấu trúc thanh cuộn ngang (Carousel) *@
+        <div class="store-products-carousel" id="productCarousel">
+            @if (Model.Any())
+            {
+                foreach (var sp in Model)
+                {
+                    <div class="store-product-card">
+                        <h3 class="store-card-title">@sp.Name</h3>
+                        
+                        <img src="~/images/@sp.ImageUrl" alt="@sp.Name">
+
+                            @* Tùy chọn chấm màu *@
+                            <div class="store-card-options">
+                                <span class="color-swatch" style="background-color: #d1d1d1;"></span>
+                                <span class="color-swatch" style="background-color: #4a4a4a;"></span>
+                                <span class="color-swatch" style="background-color: #8e94a8;"></span>
+                            </div>
+
+                            <div class="store-card-price">
+                                @sp.Price.ToString("N0") VND
+                            </div>
+
+                            <a asp-action="Details" asp-route-id="@sp.Id" class="btn btn-dark rounded-pill mt-3 fw-bold py-2">
+                                Mua ngay
+                            </a>
+                        </div>
+                    }
+                }
+            else
+                {
+                    <div class="w-100 text-center py-5">
+                        <p class="text-muted fs-4">Hiện chưa có sản phẩm nào.</p>
+                    </div>
+                }
+            </div>
+
+            @* Thanh tiến trình và Nút điều hướng *@
+            <div class="store-carousel-controls">
+                <div class="carousel-progress-track">
+                    <div class="carousel-progress-bar" id="progressBar" style="width: 20%;"></div>
+                </div>
+                <div class="carousel-nav-buttons">
+                    <button class="nav-btn" onclick="scrollCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+                    <button class="nav-btn" onclick="scrollCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    @* JS nhỏ để xử lý nút bấm cuộn ngang *@
+    @section Scripts {
+        <script>
+            function scrollCarousel(direction) {
+                const carousel = document.getElementById('productCarousel');
+                const scrollAmount = 340; // Độ rộng thẻ + gap
+                carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+            }
+        </script>
+    }

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<samsungweb.Models.Category>
+
+@foreach (var cat in Model)
+{
+    @* Class 'has-mega-menu' sẽ kích hoạt hiệu ứng hover trong site.css của bạn *@
+    <li class="has-mega-menu">
+        <a asp-controller="Home" asp-action="Store" asp-route-categoryId="@cat.Id">@cat.Name</a>
+
+        @* Khối Mega Menu xổ xuống *@
+        <div class="ss-mega-menu">
+            <div class="mega-menu-content">
+                
+                @* Bên trái: Lưới sản phẩm (6 cột theo CSS của bạn) *@
+                <div class="mega-products-grid">
+                    @foreach (var prod in cat.Products.Take(6))
+                    {
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@prod.Id" class="mega-item">
+                            <span class="badge-new">MỚI</span>
+                            <img src="~/images/@prod.ImageUrl" alt="@prod.Name">
+                                <span class="mega-item-name">@prod.Name</span>
+                            </a>
+                        }
+                    </div>
+
+                    @* Bên phải: Các liên kết khám phá *@
+                    <div class="mega-links">
+                        <h4 class="mega-links-title">KHÁM PHÁ</h4>
+                        <ul>
+                            <li><a href="#">Ưu đãi @cat.Name</a></li>
+                            <li><a href="#">Phụ kiện chính hãng</a></li>
+                            <li><a asp-action="Store" asp-route-categoryId="@cat.Id">Ưu đãi @cat.Name</a></li>
+                            <li><a asp-controller="Home" asp-action="Store" asp-route-categoryId="@cat.Id" style="font-weight:bold !important;">Xem tất cả @cat.Name</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </li>
+    }
