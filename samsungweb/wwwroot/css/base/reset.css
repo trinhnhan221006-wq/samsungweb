@@ -1,0 +1,23 @@
+﻿/* =========================================
+   RESET & BASE STYLES
+   Thiết lập các thuộc tính gốc cho toàn bộ website
+   ========================================= */
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    /* Ngăn xuất hiện thanh cuộn ngang rác khiến web bị lắc */
+    overflow-x: hidden;
+    /* Gộp font chữ chuẩn từ trang Store sang đây để dùng chung */
+    font-family: 'Inter', Arial, sans-serif !important;
+    -webkit-font-smoothing: antialiased; /* Giúp chữ hiển thị sắc nét, mượt mà hơn */
+}
+
+/* Ép thẻ main bung tràn 100% màn hình, đè lại giới hạn mặc định của Bootstrap */
+main {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}

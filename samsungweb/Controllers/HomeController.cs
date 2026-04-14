@@ -64,5 +64,30 @@ namespace samsungweb.Controllers
 
             return Content("Không tìm thấy tài khoản này, kiểm tra lại email nhé.");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProductDetails(int id)
+        {
+            // Tìm sản phẩm trong Database dựa vào ID khách hàng click
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound(); // Báo lỗi nếu không tìm thấy
+            }
+
+            // Trả về dữ liệu nguyên bản dưới dạng JSON để JavaScript đọc
+            return Json(new
+            {
+                id = product.Id,
+                name = product.Name,
+                price = product.Price.ToString("N0") + " VNĐ", // Định dạng tiền luôn
+                imageUrl = product.ImageUrl,
+                screenSize = product.ScreenSize,
+                cameraInfo = product.CameraInfo,
+                chipset = product.Chipset,
+                battery = product.Battery
+            });
+        }
     }
 }

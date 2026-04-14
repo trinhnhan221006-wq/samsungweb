@@ -1,0 +1,106 @@
+﻿/* --- Khu vực Chân trang (Footer) --- */
+.ss-footer {
+    background-color: #ffffff;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 40px;
+    font-family: Arial, sans-serif;
+    color: #000;
+}
+
+.ss-footer-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+/* --- Layout Grid cho 5 cột --- */
+.ss-footer-links {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Chia đều 5 cột */
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 40px;
+}
+
+/* Cột và viền dọc phân cách */
+.ss-footer-col {
+    padding: 0 20px;
+    border-right: 1px solid #e5e5e5;
+}
+
+    /* Xóa viền dọc ở cột cuối cùng */
+    .ss-footer-col.border-none {
+        border-right: none;
+    }
+
+/* --- Typography cho Title và Links --- */
+.ss-footer-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #000;
+}
+
+/* Khoảng cách cho nhóm title thứ 2 trong cột cuối */
+.mt-group {
+    margin-top: 40px;
+}
+
+.ss-footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .ss-footer-col ul li {
+        margin-bottom: 15px;
+    }
+
+        .ss-footer-col ul li a {
+            text-decoration: none;
+            color: #555555; /* Màu xám đậm */
+            font-size: 14px;
+            transition: color 0.2s;
+            display: inline-block;
+        }
+
+            .ss-footer-col ul li a:hover {
+                color: #000000;
+                text-decoration: underline;
+            }
+
+/* Icon mũi tên ra ngoài (External link) */
+.bi-box-arrow-up-right {
+    font-size: 10px;
+    margin-left: 5px;
+    color: #888;
+}
+
+.ss-certifications {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* --- Responsive cho Mobile & Tablet --- */
+@media (max-width: 1024px) {
+    .ss-footer-links {
+        grid-template-columns: repeat(3, 1fr); /* Xuống 3 cột trên tablet */
+        gap: 30px 0;
+    }
+
+    .ss-footer-col {
+        border-right: none; /* Bỏ viền dọc khi xuống dòng */
+    }
+}
+
+@media (max-width: 768px) {
+    .ss-footer-links {
+        grid-template-columns: 1fr; /* 1 cột trên mobile */
+    }
+
+    .ss-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}

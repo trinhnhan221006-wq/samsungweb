@@ -1,0 +1,260 @@
+﻿/* Reset cơ bản cho phần header */
+.ss-header {
+    background-color: transparent !important; /* Ép nền trong suốt */
+    position: absolute !important; /* Bắt buộc để đè lên ảnh banner */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 40px;
+}
+
+    .ss-header a {
+        color: #ffffff !important; /* Ép chữ màu trắng, xóa màu xanh mặc định */
+        text-decoration: none !important; /* Bỏ gạch chân nếu có */
+    }
+
+        .ss-header a:hover {
+            color: #cccccc;
+        }
+
+/* --- Menu phụ phía trên --- */
+.ss-top-nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    font-size: 12px;
+    margin-bottom: 5px;
+    padding-right: 10px;
+}
+
+.ss-header .nav-link i {
+    color: #ffffff !important;
+}
+
+.ss-header:hover .nav-link i,
+.ss-header:hover .action-icon i {
+    color: #000000 !important;
+}
+
+/* --- Menu chính --- */
+.ss-main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.ss-logo a {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.ss-menu ul {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+}
+
+.ss-menu li a {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* --- Khu vực Icon & Tìm kiếm --- */
+.ss-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ss-search-bar {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 5px 15px;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+    .ss-search-bar i {
+        font-size: 14px;
+        margin-right: 8px;
+    }
+
+    .ss-search-bar input {
+        background: transparent;
+        border: none;
+        color: white;
+        outline: none;
+        width: 80px; /* Có thể dùng JS để mở rộng khi focus */
+        font-size: 14px;
+    }
+
+        .ss-search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+.action-icon {
+    font-size: 20px;
+}
+
+/* --- 1. Hiệu ứng đổi màu Header từ Trong suốt -> Trắng khi di chuột --- */
+.ss-header {
+    transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt */
+}
+
+    /* Khi hover vào bất kỳ đâu trên header, nền thành trắng, chữ thành đen */
+    .ss-header:hover {
+        background-color: #ffffff !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+        .ss-header:hover a,
+        .ss-header:hover .ss-logo a,
+        .ss-header:hover .ss-search-bar i {
+            color: #000000 !important; /* Đổi màu chữ thành đen */
+        }
+
+        .ss-header:hover .ss-search-bar {
+            border-color: #cccccc;
+            background-color: #f7f7f7;
+        }
+
+            .ss-header:hover .ss-search-bar input {
+                color: #000;
+            }
+
+/* Gạch chân màu xanh (hoặc đen) dưới chữ Cửa hàng khi hover */
+.has-mega-menu {
+    position: static; /* Quan trọng: để mega menu bung tràn màn hình chứ không bị nhốt trong thẻ li */
+}
+
+    .has-mega-menu:hover > a {
+        position: relative;
+    }
+
+        .has-mega-menu:hover > a::after {
+            content: '';
+            position: absolute;
+            bottom: -22px; /* Căn chỉnh khoảng cách gạch chân */
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #000000; /* Bạn có thể đổi thành mã màu xanh #1259c3 nếu thích */
+        }
+
+/* --- 2. Giao diện Mega Menu xổ xuống --- */
+.ss-mega-menu {
+    position: absolute;
+    top: 100%; /* Nằm ngay sát mép dưới của header */
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 40px 0;
+    border-top: 1px solid #ebebeb;
+    /* Hiệu ứng ẩn/hiện mượt mà */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-15px); /* Trượt nhẹ từ trên xuống */
+    transition: all 0.3s ease;
+    z-index: 999;
+    box-shadow: 0 15px 20px rgba(0,0,0,0.05);
+}
+
+/* Kích hoạt hiển thị Mega Menu khi di chuột vào thẻ li */
+.has-mega-menu:hover .ss-mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Layout chia cột bên trong Mega Menu */
+.mega-menu-content {
+    display: flex;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 5%;
+    gap: 40px;
+}
+
+/* Lưới sản phẩm bên trái */
+.mega-products-grid {
+    flex: 3;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 cột sản phẩm */
+    gap: 20px;
+}
+
+.mega-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none !important;
+    position: relative;
+}
+
+    .mega-item img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 15px;
+        transition: transform 0.2s;
+    }
+
+    .mega-item:hover img {
+        transform: scale(1.1); /* Phóng to ảnh nhẹ khi trỏ chuột */
+    }
+
+.mega-item-name {
+    font-size: 13px;
+    font-weight: bold;
+    color: #000;
+}
+
+.badge-new {
+    color: #1259c3; /* Màu xanh đặc trưng của Samsung */
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Cột danh sách liên kết bên phải */
+.mega-links {
+    flex: 1;
+    border-left: 1px solid #ebebeb;
+    padding-left: 40px;
+}
+
+.mega-links-title {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.mega-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block !important;
+}
+
+    .mega-links ul li {
+        margin-bottom: 15px;
+    }
+
+        .mega-links ul li a {
+            font-size: 14px;
+            color: #000 !important;
+            font-weight: normal;
+            transition: font-weight 0.2s;
+        }
+
+            .mega-links ul li a:hover {
+                font-weight: bold; /* In đậm khi hover link */
+            }

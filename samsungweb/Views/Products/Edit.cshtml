@@ -24,11 +24,37 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            <div class="form-group mb-3">
+                <label class="control-label fw-bold">Hình ảnh sản phẩm</label>
+                <input type="file" name="frontImage" class="form-control" accept="image/*" />
             </div>
+            <hr />
+            <h5 class="text-primary">Thông số kỹ thuật chi tiết (Tùy chọn)</h5>
+            
+            <div class="form-group mb-3">
+                <label asp-for="ScreenSize" class="control-label fw-bold"></label>
+                <input asp-for="ScreenSize" class="form-control" placeholder="VD: 6.8 inch Dynamic AMOLED 2X..." />
+                <span asp-validation-for="ScreenSize" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CameraInfo" class="control-label fw-bold"></label>
+                <textarea asp-for="CameraInfo" class="form-control" rows="3" placeholder="VD: Hệ thống camera pro 200MP..."></textarea>
+                <span asp-validation-for="CameraInfo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Chipset" class="control-label fw-bold"></label>
+                <input asp-for="Chipset" class="form-control" placeholder="VD: Snapdragon 8 Gen 4..." />
+                <span asp-validation-for="Chipset" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Battery" class="control-label fw-bold"></label>
+                <input asp-for="Battery" class="form-control" placeholder="VD: 5000 mAh, sạc nhanh 45W..." />
+                <span asp-validation-for="Battery" class="text-danger"></span>
+            </div>
+            <hr />
             <div class="form-group mb-3">
                 <label asp-for="CategoryId" class="control-label fw-bold">Danh mục sản phẩm</label>
                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>

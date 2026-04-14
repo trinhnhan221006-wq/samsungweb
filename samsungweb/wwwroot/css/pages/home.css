@@ -1,0 +1,367 @@
+/* --- Khu vực Banner chính --- */
+.ss-hero-banner {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Chiều cao bằng 100% màn hình hiển thị */
+    min-height: 700px; /* Đảm bảo không bị quá nhỏ trên màn hình thấp */
+    /* Thay đường dẫn này bằng ảnh thực tế bạn lưu trong thư mục wwwroot/images/ của dự án ASP */
+    background-image: url('../../images/banner.jpg');
+    background-size: cover;
+    background-position: center right; /* Căn phải để lộ rõ cụm camera của điện thoại */
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    color: #ffffff;
+    /* Đẩy nội dung xuống một chút để không bị Navbar (đang set position: absolute) che khuất */
+    padding-top: 80px;
+}
+
+/* --- Nội dung Text --- */
+.ss-banner-content {
+    margin-left: 12%; /* Căn lề trái tương tự như trên ảnh */
+    max-width: 600px;
+    z-index: 10;
+    top: 55%;
+    position: absolute;
+}
+
+.ss-banner-title {
+    font-size: 3.8rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    letter-spacing: -1px;
+}
+
+.ss-banner-subtitle {
+    font-size: 3rem;
+    font-weight: 400;
+    margin: 0 0 25px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ss-banner-desc {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    margin: 0 0 45px 0;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* --- Khu vực Nút bấm --- */
+.ss-banner-buttons {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+/* Nút "Tìm hiểu thêm" có gạch chân */
+.btn-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+    .btn-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+    }
+
+    .btn-link:hover::after {
+        width: 0; /* Hiệu ứng mất gạch chân khi hover */
+    }
+
+/* Nút "Mua" dạng viền bo góc (Pill button) */
+.btn-outline {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 12px 35px;
+    border: 2px solid #ffffff;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline:hover {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+
+/* --- Khu vực Danh sách Sản phẩm --- */
+.ss-product-grid-section {
+    padding: 60px 5%; /* Cách lề trên dưới 60px, trái phải 5% để không bị sát viền */
+    background-color: #ffffff;
+}
+
+.ss-product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Chia đều 4 cột */
+    gap: 20px; /* Khoảng cách giữa các thẻ */
+}
+
+/* --- Thiết kế Thẻ Sản Phẩm (Card) --- */
+.ss-product-card {
+    background-color: #f4f4f4; /* Màu xám nhạt giống ảnh */
+    border-radius: 24px; /* Bo góc mềm mại */
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .ss-product-card:hover {
+        background-color: #ebebeb; /* Đổi màu xám đậm hơn một chút khi di chuột vào */
+    }
+
+.ss-product-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* --- Xử lý Hình ảnh & Nút Mua --- */
+.ss-product-image {
+    position: relative; /* Để định vị nút Mua đè lên ảnh */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px; /* Giữ chiều cao cố định để các card bằng nhau */
+}
+
+    .ss-product-image img {
+        max-width: 85%;
+        height: auto;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+/* Phóng to ảnh nhẹ khi hover vào thẻ */
+.ss-product-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Nút Mua (Mặc định ẩn) */
+.btn-buy-hover {
+    position: absolute;
+    bottom: -15px; /* Nằm tụt xuống dưới ảnh một chút */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff !important; /* Ép chữ trắng */
+    padding: 10px 35px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none !important;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+    /* Hiện nút Mua khi hover vào thẻ, hoặc khi có class show-btn (để giống hệt ảnh mẫu của bạn) */
+    .ss-product-card:hover .btn-buy-hover,
+    .btn-buy-hover.show-btn {
+        opacity: 1;
+        visibility: visible;
+        bottom: 5px; /* Trượt nhẹ lên trên */
+    }
+
+/* --- Responsive (Chỉnh lại cho điện thoại và tablet) --- */
+@media (max-width: 1024px) {
+    .ss-product-grid {
+        grid-template-columns: repeat(2, 1fr); /* Tablet: 2 cột */
+    }
+}
+
+@media (max-width: 768px) {
+    .ss-product-grid {
+        grid-template-columns: 1fr; /* Mobile: 1 cột */
+    }
+}
+
+
+
+/* --- Khu vực Video Section --- */
+.ss-video-section {
+    position: relative;
+    width: 95%; /* Không tràn hẳn 100% để tạo viền trắng hai bên giống web Samsung hiện tại */
+    max-width: 1600px;
+    height: 75vh; /* Chiều cao chiếm 75% màn hình */
+    min-height: 550px;
+    margin: 40px auto; /* Căn giữa và cách các phần khác 40px */
+    border-radius: 30px; /* Bo góc khối video */
+    overflow: hidden; /* Cắt bỏ phần video tràn ra ngoài góc bo */
+    background-color: #f4f4f4; /* Màu nền dự phòng nếu video lỗi */
+}
+
+/* Ép video phủ kín container */
+.ss-bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* Khu vực chứa Text */
+.ss-video-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    align-items: center; /* Căn giữa text theo chiều dọc */
+    padding-left: 8%; /* Đẩy text vào từ bên trái */
+}
+
+.ss-text-block {
+    max-width: 500px;
+}
+
+.ss-video-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #000; /* Chữ màu đen vì nền video có vẻ sáng */
+    margin-bottom: 15px;
+}
+
+.ss-video-desc {
+    font-size: 1.3rem;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+/* Cụm Nút bấm */
+.ss-video-actions {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+/* Nút Link có gạch chân màu đen */
+.btn-link-dark {
+    color: #000;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+    .btn-link-dark::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #000;
+        transition: width 0.3s ease;
+    }
+
+    .btn-link-dark:hover::after {
+        width: 0; /* Thu gọn gạch chân khi di chuột vào */
+    }
+
+/* Nút "Xem tất cả" viền đen bo tròn */
+.btn-outline-dark {
+    color: #000;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px 30px;
+    border: 1px solid #000;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline-dark:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+/* Nút Play/Pause góc dưới */
+.ss-video-control {
+    position: absolute;
+    bottom: 40px;
+    left: 8%; /* Cùng lề với Text */
+    z-index: 3;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #000;
+    cursor: pointer;
+    padding: 0;
+}
+/* Container chứa các danh mục icon */
+.ss-category-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+/* Từng item danh mục */
+.ss-cat-item {
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    width: 110px;
+    transition: all 0.3s ease;
+}
+
+/* Ô vuông chứa icon */
+.ss-cat-icon-box {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+/* Trạng thái đang chọn (Active) */
+.ss-cat-item.active .ss-cat-icon-box {
+    border: 2px solid #000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.ss-cat-item.active span {
+    font-weight: bold;
+}
+
+/* Hiệu ứng hover */
+.ss-cat-item:hover .ss-cat-icon-box {
+    background-color: #f8f8f8;
+    transform: translateY(-5px);
+}
+
+.ss-cat-name {
+    font-size: 13px;
+    display: block;
+    line-height: 1.2;
+}

@@ -6,9 +6,9 @@
     int? currentCatId = ViewBag.CurrentCategory as int?;
 }
 
-@* Liên kết trực tiếp file CSS chuyên biệt cho trang Store *@
 @section Styles {
-    <link rel="stylesheet" href="~/css/store.css" />
+    <link rel="stylesheet" href="~/css/components/product-card.css" />
+    <link rel="stylesheet" href="~/css/pages/store.css" />
 }
 
 @functions {
@@ -67,7 +67,13 @@
                     <div class="store-product-card">
                         <h3 class="store-card-title">@sp.Name</h3>
                         
-                        <img src="~/images/@sp.ImageUrl" alt="@sp.Name">
+                        <div class="product-image-container">
+                            <img src="~/images/@sp.ImageUrl" alt="@sp.Name">
+    
+                                <button class="btn quick-view-btn" data-id="@sp.Id">
+                                    Hãy khám phá thiết bị
+                                </button>
+                            </div>
 
                             @* Tùy chọn chấm màu *@
                             <div class="store-card-options">
@@ -116,5 +122,117 @@
                 const scrollAmount = 340; // Độ rộng thẻ + gap
                 carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
             }
+        // ==========================================
+        // JS MỚI: GIAI ĐOẠN 4 - AJAX QUICK VIEW MODAL
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // 1. Lấy tất cả các nút có class "quick-view-btn"
+            const quickViewBtns = document.querySelectorAll('.quick-view-btn');
+
+            // 2. Gắn "tai nghe" sự kiện Click cho từng nút
+            quickViewBtns.forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault(); // Ngăn trình duyệt nhảy trang
+                    
+                    // Lấy ID của sản phẩm từ thuộc tính data-id trên nút
+                    const productId = this.getAttribute('data-id'); 
+
+                    // 3. Gọi AJAX (Fetch API) về Controller để lấy dữ liệu
+                    fetch(`/Home/GetProductDetails?id=${productId}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Lỗi mạng!');
+                            return response.json(); // Biến dữ liệu thô thành JSON
+                        })
+                        .then(data => {
+                            // 4. Nhét dữ liệu nhận được vào các ID trong Khung Modal
+                            document.getElementById('modalProductName').textContent = data.name;
+                            document.getElementById('modalProductPrice').textContent = data.price;
+                            
+                            // Cập nhật đường dẫn ảnh
+                            document.getElementById('modalProductImage').src = `/images/${data.imageUrl}`;
+                            
+                            // Cập nhật thông số (Dùng 'Đang cập nhật' nếu dữ liệu rỗng)
+                            document.getElementById('modalScreenSize').textContent = data.screenSize || 'Đang cập nhật';
+                            document.getElementById('modalCameraInfo').textContent = data.cameraInfo || 'Đang cập nhật';
+                            document.getElementById('modalChipset').textContent = data.chipset || 'Đang cập nhật';
+                            document.getElementById('modalBattery').textContent = data.battery || 'Đang cập nhật';
+
+                            // Gắn ID vào Nút Mua Ngay để nó chuyển đúng trang
+                            document.getElementById('modalBuyBtn').href = `/Home/Details/${data.id}`;
+
+                            // 5. Ra lệnh cho Bootstrap bật Modal lên giữa màn hình
+                            var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
+                            quickViewModal.show();
+                        })
+                        .catch(error => {
+                            console.error('Có lỗi xảy ra:', error);
+                            alert('Không thể tải thông số sản phẩm lúc này. Vui lòng thử lại!');
+                        });
+                });
+            });
+        });
+
         </script>
     }
+
+
+
+                    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered"> <div class="modal-content border-0 shadow-lg rounded-4">
+            
+            <div class="modal-header border-0 pb-0 justify-content-end">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body p-4 pt-0">
+                <div class="row align-items-center">
+                    
+                    <div class="col-md-5 text-center mb-4 mb-md-0">
+                        <img id="modalProductImage" src="" alt="Product Image" class="img-fluid" style="max-height: 450px; object-fit: contain;">
+                    </div>
+                    
+                    <div class="col-md-7 ps-md-4">
+                        <h2 id="modalProductName" class="fw-bold mb-2">Tên sản phẩm</h2>
+                        <h4 id="modalProductPrice" class="text-primary fw-bold mb-4">Giá tiền</h4>
+                        
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3 d-flex align-items-start">
+                                <i class="bi bi-display fs-3 me-3 text-secondary"></i>
+                                <div>
+                                    <span class="d-block fw-bold text-dark">Màn hình</span>
+                                    <span id="modalScreenSize" class="text-muted">Đang tải...</span>
+                                </div>
+                            </li>
+                            <li class="mb-3 d-flex align-items-start">
+                                <i class="bi bi-camera fs-3 me-3 text-secondary"></i>
+                                <div>
+                                    <span class="d-block fw-bold text-dark">Camera</span>
+                                    <span id="modalCameraInfo" class="text-muted">Đang tải...</span>
+                                </div>
+                            </li>
+                            <li class="mb-3 d-flex align-items-start">
+                                <i class="bi bi-cpu fs-3 me-3 text-secondary"></i>
+                                <div>
+                                    <span class="d-block fw-bold text-dark">Chip xử lý</span>
+                                    <span id="modalChipset" class="text-muted">Đang tải...</span>
+                                </div>
+                            </li>
+                            <li class="mb-3 d-flex align-items-start">
+                                <i class="bi bi-battery-charging fs-3 me-3 text-secondary"></i>
+                                <div>
+                                    <span class="d-block fw-bold text-dark">Pin & Sạc</span>
+                                    <span id="modalBattery" class="text-muted">Đang tải...</span>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <a href="#" id="modalBuyBtn" class="btn btn-dark rounded-pill px-5 py-2 fw-bold" style="font-size: 1.1rem;">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

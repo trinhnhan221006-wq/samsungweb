@@ -19,6 +19,19 @@ namespace samsungweb.Models
         
         public int CategoryId { get; set; }
 
+
+        [Display(Name = "Màn hình")]
+        public string? ScreenSize { get; set; } // VD: 6.8 inch Dynamic AMOLED 2X
+
+        [Display(Name = "Camera")]
+        public string? CameraInfo { get; set; } // VD: Hệ thống camera pro 200MP...
+
+        [Display(Name = "Chip xử lý")]
+        public string? Chipset { get; set; } // VD: Snapdragon 8 Gen 4
+
+        [Display(Name = "Pin & Sạc")]
+        public string? Battery { get; set; } // VD: 5000 mAh, sạc nhanh 45W
+
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
     }

@@ -6,11 +6,6 @@
     width: 100%;
     font-family: Arial, sans-serif;
 }
-body, html {
-    font-family: 'Inter', sans-serif !important;
-    -webkit-font-smoothing: antialiased; /* Làm chữ mượt hơn trên máy Mac/iPhone */
-}
-
 /* --- Khu vực Nửa trên (Nền trắng) --- */
 .store-header-section {
     background-color: #ffffff;
@@ -101,86 +96,7 @@ body, html {
         border-radius: 10px;
     }
 
-/* Thẻ sản phẩm */
-.store-product-card {
-    background-color: #ffffff;
-    border-radius: 24px; /* Bo góc to */
-    padding: 30px;
-    min-width: 320px; /* Độ rộng cố định để không bị ép nhỏ lại */
-    flex: 0 0 auto; /* Không cho thẻ tự co giãn */
-    scroll-snap-align: start; /* Điểm dừng khi cuộn */
 
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02); /* Đổ bóng cực nhẹ */
-}
-
-.store-card-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: #000;
-    margin-top: 0;
-    margin-bottom: 30px;
-    text-align: left; /* Tựa đề căn trái */
-}
-
-.store-product-card img {
-    width: 75%;
-    margin: 0 auto;
-    align-self: center; /* Đẩy ảnh ra giữa thẻ */
-    object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-.store-product-card:hover img {
-    transform: scale(1.05); /* Phóng to ảnh nhẹ khi hover */
-}
-
-
-
-/* --- Cập nhật lại hình ảnh để chừa chỗ cho giá và màu sắc --- */
-.store-product-card img {
-    width: 85%;
-    max-height: 200px;
-    margin: 0 auto 15px auto; /* Chỉnh lại margin đáy */
-    object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-/* --- Tùy chọn (Màu sắc / Kích thước) --- */
-.store-card-options {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 25px;
-    min-height: 18px; /* Đảm bảo các thẻ đều nhau dù có hay không có option */
-}
-
-/* Kiểu dáng chấm màu */
-.color-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-/* Kiểu dáng chữ kích thước (TV) */
-.text-sizes span {
-    font-size: 11px;
-    color: #888;
-    font-weight: 600;
-}
-
-/* --- Giá tiền --- */
-.store-card-price {
-    font-size: 16px;
-    font-weight: 700;
-    color: #000;
-    /* Mẹo cực hay: Dùng margin-top: auto để luôn đẩy dòng giá xuống sát đáy thẻ, bất kể nội dung trên dài hay ngắn */
-    margin-top: auto;
-    text-align: left;
-}
 
 /* =========================================
    THANH TIẾN TRÌNH VÀ NÚT ĐIỀU HƯỚNG
@@ -238,30 +154,4 @@ body, html {
 
     .nav-btn:hover {
         border-color: #000000;
-    }
-
-/* =========================================
-   NÚT CUỘN LÊN ĐẦU TRANG
-   ========================================= */
-.scroll-top-btn {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    width: 50px;
-    height: 50px;
-    background-color: #888888; /* Màu xám giống ảnh */
-    color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    text-decoration: none;
-    z-index: 1000; /* Nổi lên trên mọi thành phần */
-    transition: background-color 0.3s;
-}
-
-    .scroll-top-btn:hover {
-        background-color: #555555;
-        color: #ffffff;
     }

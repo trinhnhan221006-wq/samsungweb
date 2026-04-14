@@ -1,0 +1,118 @@
+﻿/* Thẻ sản phẩm */
+.store-product-card {
+    background-color: #ffffff;
+    border-radius: 24px; /* Bo góc to */
+    padding: 30px;
+    min-width: 320px; /* Độ rộng cố định để không bị ép nhỏ lại */
+    flex: 0 0 auto; /* Không cho thẻ tự co giãn */
+    scroll-snap-align: start; /* Điểm dừng khi cuộn */
+
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02); /* Đổ bóng cực nhẹ */
+}
+
+.store-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-align: left; /* Tựa đề căn trái */
+}
+
+.store-product-card img {
+    width: 75%;
+    margin: 0 auto;
+    align-self: center; /* Đẩy ảnh ra giữa thẻ */
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.store-product-card:hover img {
+    transform: scale(1.05); /* Phóng to ảnh nhẹ khi hover */
+}
+
+
+
+/* --- Cập nhật lại hình ảnh để chừa chỗ cho giá và màu sắc --- */
+.store-product-card img {
+    width: 85%;
+    max-height: 200px;
+    margin: 0 auto 15px auto; /* Chỉnh lại margin đáy */
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+/* --- Tùy chọn (Màu sắc / Kích thước) --- */
+.store-card-options {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    min-height: 18px; /* Đảm bảo các thẻ đều nhau dù có hay không có option */
+}
+
+/* Kiểu dáng chấm màu */
+.color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Kiểu dáng chữ kích thước (TV) */
+.text-sizes span {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+}
+
+/* --- Giá tiền --- */
+.store-card-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    /* Mẹo cực hay: Dùng margin-top: auto để luôn đẩy dòng giá xuống sát đáy thẻ, bất kể nội dung trên dài hay ngắn */
+    margin-top: auto;
+    text-align: left;
+}
+
+/* --- GIAI ĐOẠN 2: HIỆU ỨNG QUICK VIEW BẮT CHƯỚC APPLE --- */
+
+/* 1. Thiết lập khung chứa ảnh là điểm tựa */
+.product-image-container {
+    position: relative;
+    overflow: hidden; /* Giấu nút bấm khi nó nằm dưới đáy */
+    display: flex;
+    justify-content: center; /* Căn giữa nút bấm */
+}
+
+/* 2. Định dạng nút "Hãy khám phá thiết bị" */
+.quick-view-btn {
+    position: absolute;
+    bottom: -50px; /* Bắt đầu ở vị trí ẩn dưới đáy */
+    background-color: #1d1d1f; /* Màu đen Apple */
+    color: white;
+    border-radius: 30px;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0; /* Trong suốt */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Hiệu ứng trượt mượt */
+    white-space: nowrap;
+    border: none;
+    z-index: 10;
+}
+
+    .quick-view-btn:hover {
+        background-color: #333336;
+        color: #fff;
+    }
+
+/* 3. Phép màu: Khi di chuột vào cả thẻ sản phẩm (.store-product-card), nút sẽ hiện lên */
+.store-product-card:hover .quick-view-btn {
+    bottom: 20px; /* Trượt lên vị trí này */
+    opacity: 1; /* Hiện rõ lên */
+}
