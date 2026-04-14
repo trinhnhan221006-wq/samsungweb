@@ -1,0 +1,53 @@
+﻿/* Gắn cố định ảnh bên trái khi cuộn chuột */
+.sticky-image-container {
+    position: sticky;
+    top: 100px; /* Cách header 100px */
+}
+
+/* Định dạng Ô vuông chọn Dung lượng/Dịch vụ */
+.option-box {
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #fff;
+}
+
+    .option-box:hover {
+        border-color: #000;
+    }
+
+    .option-box.active {
+        border: 2px solid #1259c3; /* Viền xanh Samsung khi được chọn */
+        background-color: #f4f8fd; /* Nền xanh siêu nhạt */
+    }
+
+/* Định dạng Vòng tròn chọn Màu sắc */
+.color-swatch {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: all 0.2s ease;
+}
+
+    .color-swatch.active {
+        outline: 2px solid #1259c3; /* Vòng khoanh bên ngoài khi được chọn */
+    }
+
+/* Thanh Thanh toán Dính đáy */
+.bottom-checkout-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Hiệu ứng kính mờ của Apple */
+    border-top: 1px solid #ebebeb;
+    padding: 15px 0;
+    z-index: 1000; /* Nổi bần bật lên trên mọi thứ */
+}

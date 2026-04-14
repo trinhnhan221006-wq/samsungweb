@@ -34,5 +34,9 @@ namespace samsungweb.Models
 
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
+
+        // --- CÁC DANH SÁCH TÙY CHỌN CHO TRANG MUA HÀNG ---
+        public ICollection<ProductColor>? ProductColors { get; set; }
+        public ICollection<ProductCapacity>? ProductCapacities { get; set; }
     }
 }

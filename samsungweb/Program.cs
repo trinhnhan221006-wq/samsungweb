@@ -25,6 +25,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// 1. THÊM DÒNG NÀY ĐỂ ĐĂNG KÝ DỊCH VỤ SESSION (Đặt ngay dưới dòng AddControllersWithViews)
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Giỏ hàng sẽ tự hủy sau 30 phút không thao tác
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +51,9 @@ app.UseAuthorization();  // Người đó có quyền làm gì?
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+// 2. THÊM DÒNG NÀY ĐỂ SỬ DỤNG SESSION (BẮT BUỘC ĐẶT TRƯỚC app.MapControllerRoute)
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

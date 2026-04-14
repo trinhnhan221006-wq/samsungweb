@@ -159,7 +159,7 @@
                             document.getElementById('modalBattery').textContent = data.battery || 'Đang cập nhật';
 
                             // Gắn ID vào Nút Mua Ngay để nó chuyển đúng trang
-                            document.getElementById('modalBuyBtn').href = `/Home/Details/${data.id}`;
+                            document.getElementById('modalBuyBtn').href = '/Home/Buy/' + data.id;
 
                             // 5. Ra lệnh cho Bootstrap bật Modal lên giữa màn hình
                             var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));

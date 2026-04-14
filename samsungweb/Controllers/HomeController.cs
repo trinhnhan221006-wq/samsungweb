@@ -89,5 +89,13 @@ namespace samsungweb.Controllers
                 battery = product.Battery
             });
         }
+
+        [HttpGet]
+        public IActionResult Buy(int id)
+        {
+            // Tạm thời truyền ID này sang View để Giai đoạn 3 chúng ta gọi Database
+            ViewBag.ProductId = id;
+            return View();
+        }
     }
 }

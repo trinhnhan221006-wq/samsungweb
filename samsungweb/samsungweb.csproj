@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Extensions\SessionExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\video\" />
   </ItemGroup>

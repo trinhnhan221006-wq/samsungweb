@@ -1,0 +1,231 @@
+﻿@{
+    ViewData["Title"] = "Cấu hình sản phẩm";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/buy.css" />
+}
+
+<div class="container mt-5 pb-5 mb-5">
+    <div class="row">
+        
+        <div class="col-md-7 pe-md-5">
+            <div class="sticky-image-container">
+                <img id="mainProductImage" src="~/images/S26Ultra.jpg" class="img-fluid rounded-4" alt="Galaxy S26 Ultra" />
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <span class="badge bg-primary rounded-pill mb-2">MỚI</span>
+            <h1 class="fw-bold mb-1">Galaxy S26 Ultra</h1>
+            <p class="fs-4 fw-bold text-dark mb-4" id="totalPriceDisplay">42.000.000 VNĐ</p>
+
+            <div class="config-section mb-4">
+                <h5 class="fw-bold mb-3">1. Chọn Dung lượng</h5>
+                <div class="d-flex flex-column gap-2">
+                    
+                    <div class="option-box active" data-price="0">
+                        <span class="fs-5 fw-bold">256GB</span>
+                    </div>
+                    
+                    <div class="option-box d-flex justify-content-between align-items-center" data-price="3000000">
+                        <span class="fs-5 fw-bold">512GB</span>
+                        <span class="text-muted">+ 3.000.000đ</span>
+                    </div>
+
+                    <div class="option-box d-flex justify-content-between align-items-center" data-price="7000000">
+                        <span class="fs-5 fw-bold">1TB</span>
+                        <span class="text-muted">+ 7.000.000đ</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="config-section mb-4">
+                <h5 class="fw-bold mb-2">2. Chọn Màu sắc</h5>
+                <p class="text-muted mb-3" id="colorNameDisplay">Tím Titanium</p>
+                <div class="d-flex gap-3">
+                    <div class="color-swatch active" style="background-color: #5c5b65;" title="Tím Titanium"></div>
+                    <div class="color-swatch" style="background-color: #1a1b1a;" title="Đen Titanium"></div>
+                    <div class="color-swatch" style="background-color: #d1d0c5;" title="Xám Titanium"></div>
+                </div>
+            </div>
+
+            <div class="config-section mb-4">
+                <h5 class="fw-bold mb-3">3. Dịch vụ bảo vệ</h5>
+                <div class="option-box d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="d-block fw-bold">Samsung Care+ 1 Năm</span>
+                        <span class="small text-muted">Bảo vệ rơi vỡ và vào nước</span>
+                    </div>
+                    <span class="text-muted">+ 2.090.000đ</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="bottom-checkout-bar shadow-lg">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-none d-md-block">
+            <span class="fs-5 fw-bold d-block">Galaxy S26 Ultra</span>
+            <span class="text-muted small" id="bottomSummary">256GB | Tím Titanium</span>
+        </div>
+        <div class="d-flex align-items-center gap-3 gap-md-4 ms-auto">
+            <div class="text-end">
+                <span class="d-block text-muted small">Tổng tiền:</span>
+                <span class="fs-4 fw-bold text-primary" id="bottomPrice">42.000.000 VNĐ</span>
+            </div>
+            <button class="btn btn-dark rounded-pill px-4 px-md-5 py-2 fw-bold fs-5" id="btnAddToCart">Thêm vào giỏ</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. KHỞI TẠO DỮ LIỆU BAN ĐẦU
+            const basePrice = 42000000; // Giá gốc phiên bản thấp nhất
+            let currentCapacityPrice = 0; // Giá cộng thêm của dung lượng
+            let currentServicePrice = 0;  // Giá gói bảo hành
+            
+            let selectedCapacity = "256GB";
+            let selectedColor = "Tím Titanium";
+
+            // Bắt các phần tử HTML cần thay đổi chữ
+            const priceDisplay1 = document.getElementById('totalPriceDisplay');
+            const priceDisplay2 = document.getElementById('bottomPrice');
+            const summaryDisplay = document.getElementById('bottomSummary');
+            const colorNameDisplay = document.getElementById('colorNameDisplay');
+
+            // Hàm định dạng số thành tiền VNĐ (VD: 42000000 -> 42.000.000 VNĐ)
+            function formatPrice(price) {
+                return new Intl.NumberFormat('vi-VN').format(price) + ' VNĐ';
+            }
+
+            // Hàm cập nhật Giao diện mỗi khi có thay đổi
+            function updateUI() {
+                // Tính tổng tiền
+                const total = basePrice + currentCapacityPrice + currentServicePrice;
+                const formattedTotal = formatPrice(total);
+                
+                // Cập nhật giá lên màn hình
+                priceDisplay1.textContent = formattedTotal;
+                priceDisplay2.textContent = formattedTotal;
+                
+                // Cập nhật dòng tóm tắt ở thanh đáy
+                summaryDisplay.textContent = `${selectedCapacity} | ${selectedColor}`;
+            }
+
+            // ==========================================
+            // 2. XỬ LÝ SỰ KIỆN: CHỌN DUNG LƯỢNG
+            // ==========================================
+            // Lấy tất cả các ô trong nhóm dung lượng (phần tử .config-section đầu tiên)
+            const capacityBoxes = document.querySelectorAll('.config-section:nth-of-type(1) .option-box');
+            
+            capacityBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    // Xóa viền xanh của ô đang chọn
+                    capacityBoxes.forEach(b => b.classList.remove('active'));
+                    // Thêm viền xanh cho ô vừa bấm
+                    this.classList.add('active');
+                    
+                    // Lấy số tiền cộng thêm từ data-price
+                    currentCapacityPrice = parseInt(this.getAttribute('data-price'));
+                    // Lấy chữ (VD: 512GB)
+                    selectedCapacity = this.querySelector('span').textContent;
+                    
+                    updateUI(); // Gọi lại hàm tính tiền
+                });
+            });
+
+            // ==========================================
+            // 3. XỬ LÝ SỰ KIỆN: CHỌN MÀU SẮC
+            // ==========================================
+            const colorSwatches = document.querySelectorAll('.color-swatch');
+            
+            colorSwatches.forEach(swatch => {
+                swatch.addEventListener('click', function() {
+                    colorSwatches.forEach(s => s.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Cập nhật tên màu sắc
+                    selectedColor = this.getAttribute('title');
+                    colorNameDisplay.textContent = selectedColor;
+                    
+                    // (Mở rộng: Chỗ này có thể viết thêm code đổi ảnh mainProductImage)
+                    updateUI();
+                });
+            });
+
+            // ==========================================
+            // 4. XỬ LÝ SỰ KIỆN: CHỌN DỊCH VỤ CARE+
+            // ==========================================
+            // Lấy ô dịch vụ ở section thứ 3
+            const serviceBox = document.querySelector('.config-section:nth-of-type(3) .option-box');
+            
+            serviceBox.addEventListener('click', function() {
+                // toggle: Có viền thì xóa, chưa có thì thêm
+                this.classList.toggle('active');
+                
+                if (this.classList.contains('active')) {
+                    currentServicePrice = 2090000; // Cộng tiền Care+
+                } else {
+                    currentServicePrice = 0; // Trừ tiền đi
+                }
+                
+                updateUI();
+            });
+
+            // ==========================================
+            // 5. NÚT THÊM VÀO GIỎ (GỬI DỮ LIỆU LÊN SERVER)
+            // ==========================================
+            const btnAddToCart = document.getElementById('btnAddToCart');
+            
+            btnAddToCart.addEventListener('click', function() {
+                // Đổi chữ nút thành Đang xử lý để UX tốt hơn
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...';
+                this.disabled = true;
+
+                // Lấy ID sản phẩm từ URL (VD: /Home/Buy/1 -> ID là 1)
+                const urlParts = window.location.pathname.split('/');
+                const productId = urlParts[urlParts.length - 1];
+
+                // Đóng gói dữ liệu chuẩn bị gửi đi
+                const cartData = {
+                    productId: parseInt(productId),
+                    selectedCapacity: selectedCapacity,
+                    selectedColor: selectedColor,
+                    finalPrice: basePrice + currentCapacityPrice + currentServicePrice
+                };
+
+                // Gửi dữ liệu bằng AJAX (Fetch API) sang Controller
+                fetch('/Cart/AddToCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(cartData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Thành công thì chuyển hướng khách sang trang Xem Giỏ hàng
+                        window.location.href = '/Cart/Index';
+                    } else {
+                        throw new Error('Lỗi thêm giỏ hàng');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra, vui lòng thử lại!');
+                    // Khôi phục lại nút bấm
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                });
+            });
+        });
+    </script>
+}
