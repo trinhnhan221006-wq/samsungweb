@@ -150,6 +150,7 @@
     justify-content: center;
     cursor: pointer;
     transition: border-color 0.2s;
+
 }
 
     .nav-btn:hover {
@@ -166,7 +167,13 @@
     text-align: left; /* QUAN TRỌNG */
     transition: 0.3s;
 }
-
+.buy-card2 {
+    background: #f6f6f6;
+    padding: 24px;
+    border-radius: 20px;
+    text-align: left; /* QUAN TRỌNG */
+    transition: 0.3s;
+}
 /* ICON */
 .icon {
     font-size: 45px;
@@ -189,18 +196,26 @@
 /* BUTTON */
 .btn-buy {
     display: inline-block;
-    margin-top: 8px;
+    margin-top: 15px;
+    padding: 10px 25px; /* Tạo độ dày cho nút */
     font-size: 14px;
-    text-decoration: none;
     font-weight: 600;
-    color: black;
+    text-decoration: none; /* Bỏ gạch chân mặc định của thẻ <a> */
+    border-radius: 50px; /* Bo tròn hoàn toàn hai đầu */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà khi di chuột */
+    /* Màu sắc chủ đạo */
+    background-color: #000000; /* Nền đen */
+    color: #ffffff !important; /* Chữ trắng (thêm !important để tránh bị ghi đè) */
+    border: 1px solid #000000; /* Viền đen */
 }
 
-/* HOVER */
-.buy-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
+    /* Hiệu ứng khi di chuột vào (Hover) */
+    .btn-buy:hover {
+        background-color: #333333; /* Đổi sang màu xám đậm khi hover */
+        border-color: #333333;
+        color: #ffffff !important;
+        transform: scale(1.05); /* Phóng to nhẹ một chút cho sinh động */
+    }
 .container {
     padding: 40px;
     text-align: center;
@@ -245,6 +260,7 @@
     padding: 6px 16px;
     margin-bottom: 20px;
     cursor: pointer;
+    font-weight: 700;
 }
 
 .card-item img {
@@ -320,4 +336,37 @@
 
     .offer-card:hover {
         transform: translateY(-5px);
+    }
+/* Sửa lỗi ghi đè để nút btn-dark luôn có màu đen */
+.btn-dark.rounded-pill {
+    background-color: #000000 !important; /* Dùng !important để thắng mọi class khác */
+    color: #ffffff !important; /* Chữ trắng */
+    border: none !important; /* Bỏ viền xám */
+    padding: 10px 30px !important; /* Cho nút to và sang hơn */
+    display: inline-block;
+    text-align: center;
+    opacity: 1 !important; /* Đảm bảo không bị mờ */
+}
+
+    /* Hiệu ứng khi di chuột (tùy chọn để trông chuyên nghiệp hơn) */
+    .btn-dark.rounded-pill:hover {
+        background-color: #333333 !important; /* Chuyển sang xám đậm khi hover */
+        transform: translateY(-2px); /* Nhấc nhẹ nút lên */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+/* Định dạng riêng cho nút Hãy khám phá thiết bị */
+.quick-view-btn {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+    border-radius: 50px !important;
+    padding: 8px 20px !important;
+    font-weight: 600 !important;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+    .quick-view-btn:hover {
+        background-color: #000000 !important;
+        color: #ffffff !important;
     }
