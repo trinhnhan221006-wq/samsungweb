@@ -94,10 +94,12 @@
 
         @* Cụm tìm kiếm và icon *@
         <div class="ss-actions">
-            <div class="ss-search-bar">
-                <i class="bi bi-search"></i>
-                <input type="text" placeholder="Tìm kiếm">
-            </div>
+            <form asp-controller="Home" asp-action="Store" method="get" class="d-flex">
+    <input name="searchString" class="form-control me-2 rounded-pill px-4" type="search" placeholder="Tìm Galaxy S26, TV..." aria-label="Search">
+    <button class="btn btn-dark rounded-pill px-3" type="submit">
+        <i class="bi bi-search"></i>
+    </button>
+</form>
             <a href="#" class="action-icon"><i class="bi bi-cart3 text-white"></i></a>
             
             @* Icon người dùng thông minh *@
