@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SamsungWeb.Models.HomeDisplay>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles {
+    <style>
+        .ss-header {
+            position: relative !important; 
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #ebebeb;
+        }
+        .ss-header a, .ss-header .ss-search-bar i { color: #000000 !important; }
+        
+        /* Đẩy nội dung khung Quản trị xích xuống cho dễ nhìn */
+        .admin-container {
+            padding: 50px 5%;
+            min-height: 60vh;
+        }
+    </style>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Section)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Section)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayOrder)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

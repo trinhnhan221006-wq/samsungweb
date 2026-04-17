@@ -16,6 +16,7 @@ namespace samsungweb.Models
 
         public string? ImageUrl { get; set; } 
 
+
         
         public int CategoryId { get; set; }
 
@@ -38,5 +39,8 @@ namespace samsungweb.Models
         // --- CÁC DANH SÁCH TÙY CHỌN CHO TRANG MUA HÀNG ---
         public ICollection<ProductColor>? ProductColors { get; set; }
         public ICollection<ProductCapacity>? ProductCapacities { get; set; }
+
+        // Đánh dấu sản phẩm có được hiển thị ra trang chủ hay không
+        public bool IsFeatured { get; set; } = false;
     }
 }

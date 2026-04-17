@@ -20,7 +20,28 @@ namespace samsungweb.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            // 1. Lấy danh sách sản phẩm cho Khối Điện thoại (Quy ước Section = 1)
+            // Sắp xếp theo DisplayOrder từ nhỏ đến lớn
+            var phones = _context.HomeDisplays
+                                 .Include(h => h.Product) // Phải Include để nó kéo theo cả Tên, Ảnh, Giá từ bảng Product sang
+                                 .Where(h => h.Section == 1)
+                                 .OrderBy(h => h.DisplayOrder)
+                                 .Select(h => h.Product) // Lõi HTML đang cần Product, nên mình chỉ trích xuất cục Product ra thôi
+                                 .ToList();
+
+            // 2. Lấy danh sách sản phẩm cho Khối TV (Quy ước Section = 2)
+            var tvs = _context.HomeDisplays
+                              .Include(h => h.Product)
+                              .Where(h => h.Section == 2)
+                              .OrderBy(h => h.DisplayOrder)
+                              .Select(h => h.Product)
+                              .ToList();
+
+            // Bỏ khối TV vào "túi dự phòng"
+            ViewBag.TvProducts = tvs;
+
+            // Trả khối Điện thoại ra làm Model chính
+            return View(phones);
         }
 
 
