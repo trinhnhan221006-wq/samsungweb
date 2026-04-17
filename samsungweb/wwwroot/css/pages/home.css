@@ -365,3 +365,32 @@
     display: block;
     line-height: 1.2;
 }
+.title {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.custom-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: none;
+    transition: 0.3s;
+    background: #f5f5f5;
+}
+
+    .custom-card img {
+        height: 270px;
+        object-fit: cover;
+    }
+
+    .custom-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+.card-text {
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+}
+
