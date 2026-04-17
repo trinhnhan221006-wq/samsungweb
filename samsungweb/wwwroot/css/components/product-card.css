@@ -93,8 +93,8 @@
 .quick-view-btn {
     position: absolute;
     bottom: -50px; /* Bắt đầu ở vị trí ẩn dưới đáy */
-    background-color: #1d1d1f; /* Màu đen Apple */
-    color: white;
+    background-color: #000 !important;
+    color: #ffffff !important; /* Chữ đen để hiện trên nền trắng */
     border-radius: 30px;
     padding: 10px 24px;
     font-size: 0.9rem;
@@ -107,8 +107,8 @@
 }
 
     .quick-view-btn:hover {
-        background-color: #333336;
-        color: #fff;
+        background-color: #000000 !important;
+        color: #ffffff !important; /* Chữ trắng hiện lên trên nền đen */
     }
 
 /* 3. Phép màu: Khi di chuột vào cả thẻ sản phẩm (.store-product-card), nút sẽ hiện lên */
