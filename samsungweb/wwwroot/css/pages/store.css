@@ -3,22 +3,25 @@
    ========================================= */
 
 .store-page-wrapper {
-    width: 100%;
-    font-family: Arial, sans-serif;
+    margin-top: 200px !important;
+    padding-top: 20px;
+    font-family: 'SamsungOne', 'Inter', sans-serif;
 }
 /* --- Khu vực Nửa trên (Nền trắng) --- */
 .store-header-section {
     background-color: #ffffff;
     text-align: center;
-    padding: 60px 0 40px 0;
+    padding: 80px 0 60px 0;
 }
 
+/* 3. Tút lại phông chữ tiêu đề cực đậm chuẩn hãng */
 .store-page-title {
-    font-size: 2.8rem;
-    font-weight: 800;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 3.5rem !important;
+    letter-spacing: -2px !important;
     color: #000;
-    margin-bottom: 50px;
-    letter-spacing: -1px;
+    margin-bottom: 50px !important;
 }
 
 /* Bộ lọc (Filter Boxes) */
@@ -38,7 +41,7 @@
     width: 110px;
     height: 110px;
     background-color: #ffffff;
-    border: 1px solid #e0e0e0; /* Viền xám nhạt */
+    border: 1px solid #eee;
     border-radius: 12px;
     text-decoration: none !important;
     color: #000;
@@ -56,13 +59,16 @@
         font-weight: 600;
     }
 
-    /* Hiệu ứng khi hover và khi ô được chọn (Active) */
     .filter-box:hover {
-        background-color: #f7f7f7;
+        background-color: #fafafa;
+        border-color: #999;
     }
 
     .filter-box.active {
-        border: 2px solid #000000; /* Viền đen đậm */
+        border: 2px solid #000 !important;
+        color: #000 !important;
+        font-weight: 700 !important;
+        opacity: 1 !important;
     }
 
         .filter-box.active i {
@@ -320,4 +326,25 @@
 
     .offer-card:hover {
         transform: translateY(-5px);
+    }
+/* Ép thanh Header luôn hiện, bất chấp mọi logic hover hay ẩn hiện khác  */
+.ss-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important; /* Luôn nằm trên cùng để không bị nội dung đè */
+    /* Vô hiệu hóa mọi lệnh ẩn của code cũ */
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    display: flex !important;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #eeeeee !important;
+}
+
+    /* Xóa bỏ mọi hiệu ứng hover làm thay đổi vị trí/độ mờ của Header */
+    .ss-header:hover {
+        transform: none !important;
+        opacity: 1 !important;
     }

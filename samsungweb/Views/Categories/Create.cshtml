@@ -18,6 +18,12 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <div class="form-group mb-3">
+                <label asp-for="ParentId" class="control-label fw-bold">Danh mục cha (Để trống nếu là danh mục lớn)</label>
+                <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ParentId">
+                    <option value="">-- Chọn danh mục cha --</option>
+                </select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

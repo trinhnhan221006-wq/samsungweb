@@ -17,5 +17,12 @@ namespace samsungweb.Models
 
         // Công tắc: Có muốn đưa danh mục này lên Menu chính không?
         public bool ShowOnHeader { get; set; } = false;
+
+        // Cột này lưu ID của danh mục cha. Nếu là danh mục lớn thì nó sẽ là null.
+        public int? ParentId { get; set; }
+
+        // Khai báo mối quan hệ Cha - Con cho Entity Framework hiểu
+        public virtual Category? ParentCategory { get; set; }
+        public virtual ICollection<Category> SubCategories { get; set; } = new List<Category>();
     }
 }

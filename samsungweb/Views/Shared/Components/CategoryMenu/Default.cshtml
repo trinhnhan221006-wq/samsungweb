@@ -12,15 +12,24 @@
                 
                 @* Bên trái: Lưới sản phẩm (6 cột theo CSS của bạn) *@
                 <div class="mega-products-grid">
-                    @foreach (var prod in cat.Products.Take(6))
-                    {
-                        <a asp-controller="Home" asp-action="Details" asp-route-id="@prod.Id" class="mega-item">
-                            <span class="badge-new">MỚI</span>
-                            <img src="~/images/@prod.ImageUrl" alt="@prod.Name">
-                                <span class="mega-item-name">@prod.Name</span>
-                            </a>
-                        }
-                    </div>
+    @if (cat.Products != null && cat.Products.Any())
+    {
+        foreach (var prod in cat.Products.Take(6))
+        {
+            <a asp-controller="Home" asp-action="Details" asp-route-id="@prod.Id" class="mega-item">
+                <span class="badge-new">MỚI</span>
+                <img src="~/images/@prod.ImageUrl" alt="@prod.Name">
+                <span class="mega-item-name">@prod.Name</span>
+            </a>
+        }
+    }
+    else
+    {
+        <div class="p-3 text-muted">
+            <em>Sản phẩm đang được cập nhật...</em>
+        </div>
+    }
+</div>
 
                     @* Bên phải: Các liên kết khám phá *@
                     <div class="mega-links">

@@ -24,30 +24,44 @@ namespace samsungweb.Controllers
         }
 
 
-        // Nâng cấp: Nhận cả ID danh mục VÀ Từ khóa tìm kiếm
         public async Task<IActionResult> Store(int? categoryId, string? searchString)
         {
-            // 1. Lấy danh sách danh mục (Cần await) để đổ ra menu
-            ViewBag.Categories = await _context.Categories.ToListAsync();
+            // 1. Kéo Danh mục Cha VÀ lôi kèm toàn bộ Danh mục Con của nó lên (.Include)
+            ViewBag.Categories = await _context.Categories
+                .Include(c => c.SubCategories)
+                .Where(c => c.ParentId == null)
+                .ToListAsync();
 
-            // 2. Khởi tạo câu truy vấn lấy toàn bộ sản phẩm
             var productsQuery = _context.Products.AsQueryable();
 
-            // 3. Nếu khách bấm vào Menu danh mục -> Lọc theo CategoryId
             if (categoryId.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.CategoryId == categoryId);
-                ViewBag.CurrentCategory = categoryId;
+                // 2. Kéo Danh mục hiện tại, lôi kèm cả Cha và Con của nó
+                var currentCat = await _context.Categories
+                    .Include(c => c.ParentCategory)
+                    .Include(c => c.SubCategories)
+                    .FirstOrDefaultAsync(c => c.Id == categoryId);
+
+                ViewBag.CurrentCategory = currentCat;
+
+                if (currentCat != null)
+                {
+                    var categoryIds = new List<int> { currentCat.Id };
+                    // Nếu nó là Cha, lấy thêm ID của tất cả bọn Con
+                    if (currentCat.ParentId == null && currentCat.SubCategories != null)
+                    {
+                        categoryIds.AddRange(currentCat.SubCategories.Select(s => s.Id));
+                    }
+                    productsQuery = productsQuery.Where(p => categoryIds.Contains(p.CategoryId));
+                }
             }
 
-            // 4. Nếu khách gõ vào thanh Tìm kiếm -> Lọc tiếp theo Tên sản phẩm
             if (!string.IsNullOrEmpty(searchString))
             {
                 productsQuery = productsQuery.Where(p => p.Name.Contains(searchString));
                 ViewBag.CurrentSearch = searchString;
             }
 
-            // 5. Trả về kết quả (Cần await)
             return View(await productsQuery.ToListAsync());
         }
 

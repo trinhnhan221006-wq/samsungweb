@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using samsungweb.Data;
 
@@ -11,9 +12,11 @@ using samsungweb.Data;
 namespace samsungweb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260417034206_AddEmailToOrder")]
+    partial class AddEmailToOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,18 +236,10 @@ namespace samsungweb.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("ParentCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("ShowOnHeader")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -476,15 +471,6 @@ namespace samsungweb.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("samsungweb.Models.Category", b =>
-                {
-                    b.HasOne("samsungweb.Models.Category", "ParentCategory")
-                        .WithMany("SubCategories")
-                        .HasForeignKey("ParentCategoryId");
-
-                    b.Navigation("ParentCategory");
-                });
-
             modelBuilder.Entity("samsungweb.Models.OrderDetail", b =>
                 {
                     b.HasOne("samsungweb.Models.Order", "Order")
@@ -540,8 +526,6 @@ namespace samsungweb.Migrations
             modelBuilder.Entity("samsungweb.Models.Category", b =>
                 {
                     b.Navigation("Products");
-
-                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("samsungweb.Models.Order", b =>

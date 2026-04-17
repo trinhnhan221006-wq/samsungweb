@@ -15,10 +15,11 @@ namespace samsungweb.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            // Lấy tất cả danh mục, mỗi danh mục lấy kèm theo 4 sản phẩm mới nhất
             var categories = await _context.Categories
-                .Include(c => c.Products)
-                .ToListAsync();
+        .Include(c => c.SubCategories) // Lôi danh mục con lên
+        .Include(c => c.Products)      // <--- Bắt buộc phải có dòng này để cat.Products hết bị null!
+        .Where(c => c.ParentId == null)
+        .ToListAsync();
 
             return View(categories);
         }

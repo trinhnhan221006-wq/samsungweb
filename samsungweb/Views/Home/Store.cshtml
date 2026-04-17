@@ -2,8 +2,9 @@
 @{
     ViewData["Title"] = "Cửa hàng Samsung";
     Layout = "_Layout";
-    var categories = ViewBag.Categories as IEnumerable<samsungweb.Models.Category>;
-    int? currentCatId = ViewBag.CurrentCategory as int?;
+
+    // Ép kiểu để tránh lỗi 'dynamic' và lỗi gạch chân đỏ
+    var currentCat = ViewBag.CurrentCategory as samsungweb.Models.Category;
 }
 
 @section Styles {
@@ -32,30 +33,57 @@
     
     @* --- PHẦN 1: NỬA TRÊN (NỀN TRẮNG) --- *@
     <section class="store-header-section">
-        <h1 class="store-page-title">Lựa chọn tối ưu chuẩn sống của bạn</h1>
+        <h1 class="store-page-title text-center"
+            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 800; font-size: 3rem; letter-spacing: -1px; margin-bottom: 2rem;">
+            Lựa chọn tối ưu chuẩn sống của bạn
+        </h1>
 
-        @* Bộ lọc Icon (Filter Boxes) *@
-        <div class="store-category-filters">
-            @* Nút Mới & Nổi bật *@
-            <a asp-action="Store" class="filter-box @(currentCatId == null ? "active" : "")">
-                <i class="bi bi-star"></i>
-                <span>Mới & Nổi bật</span>
-            </a>
+        <div class="category-menu text-center mb-5">
+            
+            <div class="store-category-filters">
+                @* Nút Mới & Nổi bật *@
+                <a href="/Home/Store" class="filter-box @(currentCat == null ? "active" : "")">
+                    <i class="bi bi-star"></i>
+                    <span>Mới & Nổi bật</span>
+                </a>
 
-            @if (categories != null)
-            {
-                foreach (var cat in categories)
+                @if (ViewBag.Categories != null)
                 {
-                    <a asp-action="Store" asp-route-categoryId="@cat.Id"
-                           class="filter-box @(currentCatId == cat.Id ? "active" : "")">
-                        <i class="bi @GetIcon(cat.Name)"></i>
-                        <span>@cat.Name</span>
-                    </a>
+                    // Dùng tên biến 'catItem' để tránh lỗi trùng tên 'parent' [cite: 52]
+                    foreach (var catItem in (List<samsungweb.Models.Category>)ViewBag.Categories)
+                    {
+                        var isSelected = currentCat != null && (currentCat.Id == catItem.Id || currentCat.ParentId == catItem.Id);
+                        
+                        <a href="/Home/Store?categoryId=@catItem.Id" class="filter-box @(isSelected ? "active" : "")">
+                            <i class="bi @GetIcon(catItem.Name)"></i>
+                            <span>@catItem.Name</span>
+                        </a>
+                    }
+                }
+            </div>
+
+            @* HIỂN THỊ DANH MỤC CON (GALAXY S, GALAXY A...) *@
+            @if (currentCat != null)
+            {
+                var subList = currentCat.ParentId == null ? currentCat.SubCategories : currentCat.ParentCategory?.SubCategories;
+
+                if (subList != null && subList.Count > 0) // Dùng Count > 0 thay vì Any() để tránh lỗi [cite: 58]
+                {
+                    <div class="d-flex justify-content-center gap-4 mt-4 border-bottom pb-2">
+                        @foreach (var sub in subList)
+                        {
+                            var isSubSelected = currentCat.Id == sub.Id;
+                            <a href="/Home/Store?categoryId=@sub.Id"
+                                   class="text-decoration-none @(isSubSelected ? "text-dark fw-bold border-bottom border-dark border-2 pb-1" : "text-secondary fw-semibold")"
+                                   style="font-size: 1.1rem;">
+                                @sub.Name
+                            </a>
+                        }
+                    </div>
                 }
             }
         </div>
     </section>
-
     @* --- PHẦN 2: NỬA DƯỚI (NỀN XÁM) --- *@
     <section class="store-products-section">
         

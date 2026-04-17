@@ -48,6 +48,8 @@ namespace samsungweb.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
+            // Dòng này sẽ lấy tất cả các danh mục để nhét vào menu xổ xuống
+            ViewBag.ParentId = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
@@ -56,7 +58,7 @@ namespace samsungweb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ShowOnHeader")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,ShowOnHeader,ParentId")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -80,6 +82,8 @@ namespace samsungweb.Controllers
             {
                 return NotFound();
             }
+            // Dòng này sẽ lấy tất cả các danh mục để nhét vào menu xổ xuống
+            ViewBag.ParentId = new SelectList(_context.Categories, "Id", "Name");
             return View(category);
         }
 
@@ -88,7 +92,7 @@ namespace samsungweb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ParentId")] Category category)
         {
             if (id != category.Id)
             {

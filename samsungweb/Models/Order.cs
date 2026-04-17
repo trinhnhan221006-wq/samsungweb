@@ -28,5 +28,9 @@ namespace samsungweb.Models
 
         // Mối quan hệ 1-Nhiều: 1 Đơn hàng có nhiều Chi tiết đơn hàng
         public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+        [Required(ErrorMessage = "Vui lòng nhập Email để nhận hóa đơn")]
+        [EmailAddress(ErrorMessage = "Định dạng Email không hợp lệ")]
+        public string Email { get; set; }
     }
 }
