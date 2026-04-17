@@ -20,7 +20,7 @@ namespace samsungweb.Controllers
 
         // ================= ĐĂNG NHẬP =================
         [HttpGet]
-        public IActionResult Login() 
+        public IActionResult Login () 
         {
             return View("Login"); 
         }
@@ -63,7 +63,7 @@ namespace samsungweb.Controllers
                 if (result.Succeeded)
                 {
                     // Đăng ký xong -> Quay lại form Đăng nhập
-                    return RedirectToAction("Index", "Login");
+                    return RedirectToAction("Login", "Login");
                 }
 
                 // Báo lỗi nếu mật khẩu quá yếu (không có chữ hoa, số...)
