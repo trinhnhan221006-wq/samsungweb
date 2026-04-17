@@ -104,3 +104,37 @@
         gap: 20px;
     }
 }
+.footer-section {
+    background-color: #ffffff;
+    font-size: 14px;
+}
+
+.footer-link {
+    transition: color 0.2s ease;
+}
+
+    .footer-link:hover {
+        color: #555 !important;
+        text-decoration: underline !important;
+    }
+
+/* Tinh chỉnh Icon mạng xã hội */
+.social-icons a {
+    color: #000 !important;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+    .social-icons a:hover {
+        transform: scale(1.1);
+    }
+
+.zalo-icon img {
+    filter: grayscale(100%); /* Để icon zalo đồng bộ màu đen nếu muốn */
+    transition: filter 0.2s ease;
+}
+
+.zalo-icon:hover img {
+    filter: grayscale(0%); /* Hiện màu khi hover */
+}
