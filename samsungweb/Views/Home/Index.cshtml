@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<samsungweb.Models.Product>
+
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -32,37 +35,19 @@
     <section class="ss-product-grid-section">
         <div class="ss-product-grid">
         
+            @* Bắt đầu vòng lặp: Có bao nhiêu sản phẩm Nổi bật, nó sẽ đẻ ra bấy nhiêu khối *@
+        @foreach (var item in Model)
+        {
             <div class="ss-product-card">
-                <h3 class="ss-product-title">Galaxy Z Fold7</h3>
+                <h3 class="ss-product-title">@item.Name</h3>
+                
                 <div class="ss-product-image">
-                    <img src="~/images/galaxy-z-fold-7.png" alt="Galaxy Z Fold7">
-                        <a href="#" class="btn-buy-hover">Mua</a>
-                    </div>
+                    <img src="~/images/@item.ImageUrl" alt="@item.Name">
+                    
+                    <a href="@Url.Action("Details", "Home", new { id = item.Id })" class="btn-buy-hover">Mua</a>
                 </div>
-
-                <div class="ss-product-card">
-                    <h3 class="ss-product-title">Galaxy Buds4 Pro</h3>
-                    <div class="ss-product-image">
-                        <img src="~/images/buds.png" alt="Galaxy Buds4 Pro">
-                            <a href="#" class="btn-buy-hover">Mua</a>
-                        </div>
-                    </div>
-
-                    <div class="ss-product-card">
-                        <h3 class="ss-product-title">Galaxy Tab S11 Ultra</h3>
-                        <div class="ss-product-image">
-                            <img src="~/images/tabs.png" alt="Galaxy Tab S11 Ultra">
-                                <a href="#" class="btn-buy-hover">Mua</a>
-                            </div>
-                        </div>
-
-                        <div class="ss-product-card">
-                            <h3 class="ss-product-title">Galaxy Watch8</h3>
-                            <div class="ss-product-image">
-                                <img src="~/images/watch.png" alt="Galaxy Watch8">
-                                    <a href="#" class="btn-buy-hover">Mua</a>
-                                </div>
-                            </div>
+            </div>
+        }
 
                         </div>
                     </section>

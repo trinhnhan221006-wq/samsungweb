@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;    
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;    
+using Microsoft.EntityFrameworkCore;
 using samsungweb.Models;
 using samsungweb.Models;
+using SamsungWeb.Models;
 
 namespace samsungweb.Data
 {
@@ -18,5 +19,7 @@ namespace samsungweb.Data
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+
+        public DbSet<HomeDisplay> HomeDisplays { get; set; }
     }
 }
