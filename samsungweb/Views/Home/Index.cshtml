@@ -1,20 +1,5 @@
 ﻿@model IEnumerable<samsungweb.Models.Product>
 
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Samsung UI</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
     <!-- BANNER -->
     <section class="ss-hero-banner">
         <div class="ss-banner-content">
@@ -24,8 +9,8 @@
             </p>
         
             <div class="ss-banner-buttons">
-                <a href="#" class="btn-link">Tìm hiểu thêm</a>
-                <a href="#" class="btn-outline">Mua</a>
+                <a asp-controller="Home" asp-action="Details" asp-route-id="10" class="btn-link">Tìm hiểu thêm</a>
+                <a asp-controller="Home" asp-action="Buy" asp-route-id="10" class="btn-outline">Mua</a>
             </div>
         </div>
         </section>
@@ -44,7 +29,9 @@
                 <div class="ss-product-image">
                     <img src="~/images/@item.ImageUrl" alt="@item.Name">
                     
-                    <a href="@Url.Action("Details", "Home", new { id = item.Id })" class="btn-buy-hover">Mua</a>
+                    <a asp-controller="Home" asp-action="Buy" asp-route-id="@item.Id" class="btn btn-dark rounded-pill px-4" style="position: absolute; bottom: 20px; z-index: 10;">
+                        Mua
+                    </a>
                 </div>
             </div>
         }
@@ -98,37 +85,23 @@
     <section class="ss-product-grid-section">
         <div class="ss-product-grid">
         
-            <div class="ss-product-card">
-                <h3 class="ss-product-title">Neo QLED 8K</h3>
-                <div class="ss-product-image">
-                        <img src="~/images/Neo QLED 8K.png" alt="Neo QLED 8K">
-                        <a href="#" class="btn-buy-hover">Mua</a>
+            @* Bắt đầu vòng lặp: Có bao nhiêu sản phẩm Nổi bật, nó sẽ đẻ ra bấy nhiêu khối *@
+        @if (ViewBag.TvProducts != null)
+        {
+            foreach (var item in (IEnumerable<samsungweb.Models.Product>)ViewBag.TvProducts) 
+            {
+                <div class="ss-product-card">
+                    <h3 class="ss-product-title">@item.Name</h3>
+                    <div class="ss-product-image">
+                        <img src="~/images/@item.ImageUrl" alt="@item.Name" />
+                        
+                        <a asp-controller="Home" asp-action="Buy" asp-route-id="@item.Id" class="btn btn-dark rounded-pill px-4" style="position: absolute; bottom: 20px; z-index: 10;">
+                            Mua
+                        </a>
                     </div>
                 </div>
-
-                <div class="ss-product-card">
-                    <h3 class="ss-product-title">The Frame</h3>
-                    <div class="ss-product-image">
-                          <img src="~/images/Tranh.png" alt="The Frame">
-                     <a href="#" class="btn-buy-hover">Mua</a>
-                        </div>
-                    </div>
-
-                    <div class="ss-product-card">
-                        <h3 class="ss-product-title">Loa Thanh Q-series</h3>
-                        <div class="ss-product-image">
-                                            <img src="~/images/Loa.png" alt="Loa Thanh Q-series">
-                        <a href="#" class="btn-buy-hover">Mua</a>
-                            </div>
-                        </div>
-
-                        <div class="ss-product-card">
-                            <h3 class="ss-product-title">Smart Moniter M9</h3>
-                            <div class="ss-product-image">
-                                                <img src="~/images/Smart Monitor M9.png" alt="Smart Moniter M9">
-                            <a href="#" class="btn-buy-hover">Mua</a>
-                                </div>
-                            </div>
+            }
+        }
 
                         </div>
      </section>
@@ -177,10 +150,40 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
 
 @section Styles {
     <link rel="stylesheet" href="~/css/components/product-card.css" />
     <link rel="stylesheet" href="~/css/pages/home.css" />
+    <style>
+        /* 1. Thanh tìm kiếm nền xám nhạt (Chuẩn bài cho Header nền trắng) */
+        header form, .ss-header form {
+            background-color: #f1f3f4 !important; 
+            border: 1px solid #e0e0e0 !important;
+            border-radius: 30px !important;
+            backdrop-filter: none !important; /* Tắt kính mờ vì không cần thiết nữa */
+        }
+        
+        /* 2. Sửa màu chữ ô input thành MÀU ĐEN */
+        header form input, .ss-header form input {
+            background-color: transparent !important;
+            color: #000000 !important; 
+            border: none !important;
+            box-shadow: none !important;
+        }
+        header form input::placeholder, .ss-header form input::placeholder {
+            color: #5f6368 !important; /* Chữ placeholder xám đậm cho dễ đọc */
+        }
+
+        /* 3. Nút kính lúp MÀU ĐEN */
+        header form button, .ss-header form button {
+            background-color: transparent !important;
+            border: none !important;
+        }
+        header form button i, header form button svg,
+        .ss-header form button i, .ss-header form button svg {
+            color: #000000 !important;
+            fill: #000000 !important;
+        }
+    </style>
 }

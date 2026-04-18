@@ -3,18 +3,90 @@
 @{
     ViewData["Title"] = "Giỏ hàng của bạn";
     Layout = "_Layout";
-    
-    // LINQ thần thánh: Quét một lượt tính ngay tổng tiền của toàn bộ giỏ
+    // LINQ thần thánh tính tổng tiền [cite: 165]
     decimal totalOrder = Model?.Sum(x => x.Total) ?? 0;
 }
 
-<div class="container mt-5 pb-5 mb-5">
-    <h2 class="fw-bold mb-4">Giỏ hàng của bạn</h2>
+@section Styles {
+    <style>
+        /* --- 1. SỬA LỖI HEADER TÀNG HÌNH --- */
+        .ss-header {
+            background-color: #ffffff !important; /* Đổ nền trắng cho thanh menu */
+            border-bottom: 1px solid #ebebeb;
+            z-index: 1030; /* Đảm bảo menu luôn nổi trên cùng */
+        }
+        /* Đổi chữ menu và TẤT CẢ icon (kể cả SVG) thành màu đen */
+        .ss-header a, 
+        .ss-header i,
+        .ss-header svg {
+            color: #000000 !important; 
+            fill: #000000 !important; /* Lệnh này đổ màu đen cho ảnh SVG */
+        }
+
+        /* Ngoại trừ: Giữ lại màu trắng cho icon trong nút tìm kiếm */
+        .ss-header .btn-dark i,
+        .ss-header .btn-dark svg,
+        .ss-header button[type="submit"] i,
+        .ss-header button[type="submit"] svg {
+            color: #ffffff !important;
+            fill: #ffffff !important;
+        }
+        .ss-header a, .ss-header .ss-search-bar i {
+            color: #000000 !important; /* Đổi chữ menu thành màu đen cho dễ đọc */
+        }
+
+        /* --- 2. SỬA LỖI ĐÈ NỘI DUNG --- */
+        body { 
+            background-color: #f4f4f4; 
+        }
+        .cart-container { 
+            max-width: 1200px; 
+            margin: auto; 
+            padding-top: 130px; /* Đẩy nội dung giỏ hàng tụt xuống dưới tránh thanh menu */
+        }
+        
+        /* Cột bên phải (Tóm tắt) dính chặt khi cuộn trang */
+        .sticky-summary { 
+            position: sticky; 
+            top: 120px; /* Chỉnh lại khoảng cách cho khung tóm tắt khỏi bị lẹm */
+        }
+
+        /* --- CSS GIỮ NGUYÊN BÊN DƯỚI --- */
+        .promo-box, .summary-box, .cart-item-card, .upsell-box {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            margin-bottom: 24px;
+        }
+
+        .qty-btn {
+            width: 32px; height: 32px;
+            border-radius: 50% !important;
+            border: 1px solid #ddd;
+            background: #fff;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s;
+        }
+        .qty-btn:hover { background: #f8f9fa; }
+        .qty-input { width: 40px; text-align: center; border: none; font-weight: bold; background: transparent;}
+
+        .btn-checkout {
+            background-color: #2189ff; color: #fff;
+            border-radius: 30px; font-weight: bold;
+            padding: 14px; font-size: 1.1rem;
+        }
+        .btn-checkout:hover { background-color: #1a6fd3; color: white; }
+    </style>
+}
+
+<div class="cart-container mt-5 pb-5">
+    <h2 class="fw-bold mb-4 px-3 px-lg-0">Giỏ hàng của bạn</h2>
 
     @if (Model == null || !Model.Any())
     {
-        <div class="text-center py-5">
-            <i class="bi bi-cart-x display-1 text-muted mb-3 d-block"></i>
+        <div class="text-center py-5 bg-white rounded-4 shadow-sm mx-3 mx-lg-0">
+            <i class="bi bi-cart-x text-muted mb-3 d-block" style="font-size: 4rem;"></i>
             <h4>Giỏ hàng đang trống</h4>
             <p class="text-muted">Hãy quay lại cửa hàng để chọn cho mình sản phẩm ưng ý nhé.</p>
             <a asp-controller="Home" asp-action="Store" class="btn btn-dark rounded-pill px-4 py-2 mt-3">Tiếp tục mua sắm</a>
@@ -22,79 +94,113 @@
     }
     else
     {
-        <div class="row">
+        <div class="row g-4 mx-0">
             
-            <div class="col-lg-8 mb-4">
-                <div class="card border-0 shadow-sm rounded-4">
-                    <div class="card-body p-4">
-                        <div class="table-responsive">
-                            <table class="table align-middle text-nowrap mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th scope="col" colspan="2">Sản phẩm</th>
-                                        <th scope="col">Đơn giá</th>
-                                        <th scope="col" class="text-center">SL</th>
-                                        <th scope="col">Thành tiền</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td style="width: 100px;">
-                                                <img src="~/images/@item.ImageUrl" class="img-fluid rounded" alt="@item.ProductName" style="max-height: 80px; object-fit: contain;">
-                                                </td>
-                                                <td>
-                                                    <h6 class="fw-bold mb-1">@item.ProductName</h6>
-                                                    <small class="text-muted">@item.SelectedCapacity | @item.SelectedColor</small>
-                                                </td>
-                                                <td>@item.FinalPrice.ToString("N0") đ</td>
-                                                <td class="text-center">
-                                                    <span class="badge bg-secondary fs-6 px-3 py-2 rounded-pill">@item.Quantity</span>
-                                                </td>
-                                                <td class="fw-bold text-primary fs-5">@item.Total.ToString("N0") đ</td>
-                                                <td class="text-end">
-                                                    <a href="/Cart/Remove?id=@item.ProductId&color=@item.SelectedColor&capacity=@item.SelectedCapacity" class="btn btn-sm btn-outline-danger rounded-circle p-2">
-                                                        <i class="bi bi-trash fs-5"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+            <div class="col-lg-8">
+                <p class="text-muted fw-semibold mb-3">Bạn có @Model.Count() sản phẩm trong giỏ hàng</p>
+
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item-card d-flex flex-column flex-md-row position-relative">
+                        <a href="/Cart/Remove?id=@item.ProductId&color=@item.SelectedColor&capacity=@item.SelectedCapacity" class="btn btn-link text-muted position-absolute top-0 end-0 p-3">
+                            <i class="bi bi-trash3 fs-5 text-danger"></i>
+                        </a>
+
+                        <div class="text-center me-md-4 mb-3 mb-md-0" style="width: 150px;">
+                            <img src="~/images/@item.ImageUrl" alt="@item.ProductName" class="img-fluid" style="max-height: 150px; object-fit: contain;">
+                        </div>
+
+                        <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="fw-bold mb-1 pe-5">@item.ProductName (Chỉ có tại Samsung.com)</h5>
+                                <p class="text-muted small mb-0">@item.SelectedCapacity | @item.SelectedColor</p>
+                                <p class="text-success small mt-1"><i class="bi bi-check-circle-fill"></i> Còn hàng</p>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-end mt-4 mt-md-0">
+                                <div class="d-flex align-items-center rounded-pill border px-2 py-1" style="width: fit-content;">
+                                    <a href="/Cart/Decrease?id=@item.ProductId&color=@item.SelectedColor&capacity=@item.SelectedCapacity" class="qty-btn border-0 text-dark text-decoration-none">
+                                        <i class="bi bi-dash"></i>
+                                    </a>
+    
+                                    <input type="text" class="qty-input" value="@item.Quantity" readonly>
+    
+                                    <a href="/Cart/Increase?id=@item.ProductId&color=@item.SelectedColor&capacity=@item.SelectedCapacity" class="qty-btn border-0 text-dark text-decoration-none">
+                                        <i class="bi bi-plus"></i>
+                                    </a>
+                                </div>
+                                
+                                <div class="text-end">
+                                    <h5 class="text-primary fw-bold mb-0">@item.FinalPrice.ToString("N0") VNĐ</h5>
+                                    @if(item.Quantity > 1) {
+                                        <p class="text-muted small mb-0">Tổng: @item.Total.ToString("N0") VNĐ</p>
+                                    }
+                                </div>
                             </div>
                         </div>
+                    </div>
+                }
+
+                <p class="text-primary fw-bold mt-5 mb-3" style="font-size: 0.9rem;">Ưu đãi giảm giá được áp dụng.</p>
+                
+                <div class="upsell-box d-flex gap-3 align-items-start">
+                    <i class="bi bi-arrow-repeat fs-3 text-secondary"></i>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="fw-bold mb-0">THU CŨ ĐỔI MỚI</h6>
+                            <a href="#" class="text-dark fw-bold text-decoration-none small"><i class="bi bi-plus-circle"></i> Tham gia</a>
+                        </div>
+                        <p class="text-muted small mb-0">Áp dụng đồng thời nhiều thiết bị từ các thương hiệu khác nhau.</p>
                     </div>
                 </div>
 
-                <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm rounded-4 bg-light">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-4">Tổng quan đơn hàng</h5>
-                        
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="text-muted">Tạm tính</span>
-                                <span class="fw-bold">@totalOrder.ToString("N0") đ</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="text-muted">Phí vận chuyển</span>
-                                <span class="fw-bold text-success">Miễn phí</span>
-                            </div>
-                        
-                            <hr class="my-4 border-secondary">
-                        
-                            <div class="d-flex justify-content-between mb-4">
-                                <span class="fs-5 fw-bold">Tổng cộng</span>
-                                <span class="fs-4 fw-bold text-primary">@totalOrder.ToString("N0") đ</span>
-                            </div>
-                        
-                            <a asp-controller="Checkout" asp-action="Index" class="btn btn-dark w-100 rounded-pill py-3 fw-bold fs-5 shadow-sm">Tiến hành Thanh toán</a>
-                            <a asp-controller="Home" asp-action="Store" class="btn btn-link text-decoration-none w-100 text-center mt-3 text-muted">Tiếp tục mua sắm</a>
+                <div class="upsell-box d-flex gap-3 align-items-start">
+                    <i class="bi bi-shield-plus fs-3 text-primary"></i>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="fw-bold mb-0">Samsung Care+</h6>
+                            <a href="#" class="text-dark fw-bold text-decoration-none small"><i class="bi bi-plus-circle"></i> Thêm vào</a>
                         </div>
+                        <p class="text-muted small mb-0">Dịch vụ bảo hành mở rộng dành riêng cho thiết bị thông minh Samsung.</p>
                     </div>
                 </div>
-            
             </div>
-        }
-    </div>
+
+            <div class="col-lg-4">
+                <div class="sticky-summary">
+
+                    <div class="summary-box">
+                        <h5 class="fw-bold mb-4">Bản tóm tắt</h5>
+                        
+                        <div class="d-flex justify-content-between mb-2 text-muted">
+                            <span>Tổng giá trước thuế</span>
+                            <span>@((totalOrder * 0.9m).ToString("N0")) VNĐ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 text-muted">
+                            <span>Thuế GTGT (10%)</span>
+                            <span>@((totalOrder * 0.1m).ToString("N0")) VNĐ</span>
+                        </div>
+                        
+                        <hr class="text-muted">
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
+                            <h5 class="fw-bold mb-0">Tổng cộng</h5>
+                            <h4 class="fw-bold mb-0">@totalOrder.ToString("N0") VNĐ</h4>
+                        </div>
+                        <p class="small text-muted text-end">Đã bao gồm thuế GTGT</p>
+
+                        <a asp-controller="Checkout" asp-action="Index" class="btn btn-checkout w-100 d-block text-center mt-4 mb-3">Thanh Toán</a>
+
+                        <a asp-controller="Home" asp-action="Store" class="btn btn-link text-decoration-none w-100 text-center text-muted fw-bold">Tiếp tục mua sắm</a>
+
+                        <ul class="list-unstyled small text-muted mb-0 mt-4">
+                            <li class="mb-2"><i class="bi bi-truck me-2"></i> Giao hàng miễn phí toàn quốc</li>
+                            <li><i class="bi bi-arrow-return-left me-2"></i> Đổi sản phẩm theo chính sách quy định trong vòng 15 ngày</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>

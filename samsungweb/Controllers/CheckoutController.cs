@@ -85,13 +85,18 @@ namespace samsungweb.Controllers
                 {
                     using (var httpClient = new HttpClient())
                     {
+
+                        // Giả sử bro lấy tên sản phẩm từ giỏ hàng hoặc biến item
+                        var firstProduct = cart.FirstOrDefault()?.ProductName ?? "Sản phẩm Samsung";
+
                         // Đóng gói thông tin khách hàng thành 1 cục Data
                         var payload = new
                         {
                             orderId = order.Id,
                             customerName = order.CustomerName,
                             email = order.Email,
-                            totalAmount = order.TotalAmount.ToString("N0") + " đ"
+                            totalAmount = order.TotalAmount.ToString("N0") + " đ",
+                            productName = firstProduct
                         };
 
                         // Chuyển Data sang định dạng JSON và bắn đi (POST)

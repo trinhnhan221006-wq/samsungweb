@@ -2,43 +2,59 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "_LayoutAdmin";
 }
 
-<h1>Edit</h1>
+@section Styles {
+    <style>
+        .admin-container {
+            padding: 50px 5%;
+            min-height: 60vh;
+        }
+    </style>
+}
 
-<h4>HomeDisplay</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
-                <span asp-validation-for="ProductId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Section" class="control-label"></label>
-                <input asp-for="Section" class="form-control" />
-                <span asp-validation-for="Section" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DisplayOrder" class="control-label"></label>
-                <input asp-for="DisplayOrder" class="form-control" />
-                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="admin-container">
+    <h2 class="fw-bold">Cập nhật Vị trí Trang chủ</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="form-group mb-3">
+                    <label asp-for="ProductId" class="control-label fw-bold">Sản phẩm</label>
+                    <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
+                    <span asp-validation-for="ProductId" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="Section" class="control-label fw-bold">Vị trí hiển thị</label>
+                    <select asp-for="Section" class="form-control">
+                        <option value="1">Khối 1: Điện thoại Di động</option>
+                        <option value="2">Khối 2: TV & Màn hình</option>
+                    </select>
+                    <span asp-validation-for="Section" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="DisplayOrder" class="control-label fw-bold">Thứ tự hiển thị</label>
+                    <input asp-for="DisplayOrder" class="form-control" />
+                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-4">
+                    <input type="submit" value="Lưu thay đổi" class="btn btn-primary px-4" />
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Trở lại</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -57,7 +57,7 @@ namespace samsungweb.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,CategoryId")] Product product, IFormFile frontImage)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,CategoryId,ImageUrl,ScreenSize,CameraInfo,Chipset,Battery,IsFeatured")] Product product, IFormFile frontImage)
         {
             if (ModelState.IsValid)
             {
@@ -105,10 +105,11 @@ namespace samsungweb.Controllers
             return View(product);
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageUrl,CategoryId")] Product product)
+        // 1. THÊM THAM SỐ: IFormFile imageFile ở cuối
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageUrl,CategoryId,ScreenSize,CameraInfo,Chipset,Battery,IsFeatured")] Product product, IFormFile imageFile)
         {
             if (id != product.Id)
             {
@@ -119,6 +120,26 @@ namespace samsungweb.Controllers
             {
                 try
                 {
+                    // === ĐOẠN CODE CẦN THÊM ĐỂ XỬ LÝ ẢNH ===
+                    // Nếu người dùng có chọn một file ảnh mới
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        var fileName = Path.GetFileName(imageFile.FileName);
+                        // Đường dẫn lưu file vào thư mục wwwroot/images
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await imageFile.CopyToAsync(stream);
+                        }
+
+                        // Cập nhật đường dẫn ảnh mới cho sản phẩm
+                        product.ImageUrl = fileName;
+                    }
+                    // Nếu imageFile == null, hệ thống sẽ tự động bỏ qua khối này.
+                    // Biến product.ImageUrl vẫn sẽ giữ nguyên giá trị cũ (tên ảnh cũ) được gửi lên từ thẻ <input type="hidden" /> ở ngoài View.
+                    // =======================================
+
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }

@@ -106,13 +106,6 @@
                                 </button>
                             </div>
 
-                            @* <div class="store-card-options">
-    <span class="color-swatch" style="background-color: #d1d1d1;"></span>
-    <span class="color-swatch" style="background-color: #4a4a4a;"></span>
-    <span class="color-swatch" style="background-color: #8e94a8;"></span>
-</div> 
-*@
-
                             <div class="store-card-price">
                                 @sp.Price.ToString("N0") VND
                             </div>
@@ -176,25 +169,58 @@
                             return response.json(); // Biến dữ liệu thô thành JSON
                         })
                         .then(data => {
-                            // 4. Nhét dữ liệu nhận được vào các ID trong Khung Modal
-                            document.getElementById('modalProductName').textContent = data.name;
-                            document.getElementById('modalProductPrice').textContent = data.price;
-                            
-                            // Cập nhật đường dẫn ảnh
-                            document.getElementById('modalProductImage').src = `/images/${data.imageUrl}`;
-                            
-                            // Cập nhật thông số (Dùng 'Đang cập nhật' nếu dữ liệu rỗng)
-                            document.getElementById('modalScreenSize').textContent = data.screenSize || 'Đang cập nhật';
-                            document.getElementById('modalCameraInfo').textContent = data.cameraInfo || 'Đang cập nhật';
-                            document.getElementById('modalChipset').textContent = data.chipset || 'Đang cập nhật';
-                            document.getElementById('modalBattery').textContent = data.battery || 'Đang cập nhật';
+                                    // 1. Nhét dữ liệu text như bình thường
+            document.getElementById('modalProductName').textContent = data.name;
+            document.getElementById('modalProductPrice').textContent = data.price;
+            document.getElementById('modalProductImage').src = `/images/${data.imageUrl}`;
+            // Phải dùng đúng chữ screenSize, cameraInfo, chipset, battery như trong file HomeController.cs
+            document.getElementById('modalScreenSize').textContent = data.screenSize || 'Đang cập nhật';
+            document.getElementById('modalCameraInfo').textContent = data.cameraInfo || 'Đang cập nhật';
+            document.getElementById('modalChipset').textContent = data.chipset || 'Đang cập nhật';
+            document.getElementById('modalBattery').textContent = data.battery || 'Đang cập nhật';
+            document.getElementById('modalBuyBtn').href = '/Home/Buy/' + data.id;
 
-                            // Gắn ID vào Nút Mua Ngay để nó chuyển đúng trang
-                            document.getElementById('modalBuyBtn').href = '/Home/Buy/' + data.id;
+            // 2. Lấy các phần tử nhãn và icon để thay đổi
+            const mLabel1 = document.getElementById('modalLabel1');
+            const mLabel2 = document.getElementById('modalLabel2');
+            const mLabel3 = document.getElementById('modalLabel3');
+            const mLabel4 = document.getElementById('modalLabel4');
 
-                            // 5. Ra lệnh cho Bootstrap bật Modal lên giữa màn hình
-                            var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
-                            quickViewModal.show();
+            const mIcon1 = document.getElementById('modalIcon1');
+            const mIcon2 = document.getElementById('modalIcon2');
+            const mIcon3 = document.getElementById('modalIcon3');
+            const mIcon4 = document.getElementById('modalIcon4');
+
+            // 3. Logic thay đổi Nhãn và Icon theo CategoryId
+            switch (String(data.categoryId)) {
+                case "4": // TV & AV
+                    mLabel1.textContent = "Màn hình"; mIcon1.className = "bi bi-display fs-4 text-secondary mt-1";
+                    mLabel2.textContent = "Độ phân giải"; mIcon2.className = "bi bi-aspect-ratio fs-4 text-secondary mt-1";
+                    mLabel3.textContent = "Bộ xử lý hình ảnh"; mIcon3.className = "bi bi-cpu fs-4 text-secondary mt-1";
+                    mLabel4.textContent = "Công suất tiêu thụ"; mIcon4.className = "bi bi-lightning-charge fs-4 text-secondary mt-1";
+                    break;
+                case "5": // Gia dụng (Tủ lạnh)
+                    mLabel1.textContent = "Dung tích tổng"; mIcon1.className = "bi bi-box-seam fs-4 text-secondary mt-1";
+                    mLabel2.textContent = "Công nghệ làm lạnh"; mIcon2.className = "bi bi-snow fs-4 text-secondary mt-1";
+                    mLabel3.textContent = "Kháng khuẩn"; mIcon3.className = "bi bi-shield-check fs-4 text-secondary mt-1";
+                    mLabel4.textContent = "Kích thước"; mIcon4.className = "bi bi-arrows-fullscreen fs-4 text-secondary mt-1";
+                    break;
+                case "8": // Phụ kiện (Ốp lưng)
+                    mLabel1.textContent = "Chất liệu"; mIcon1.className = "bi bi-layers fs-4 text-secondary mt-1";
+                    mLabel2.textContent = "Dòng máy"; mIcon2.className = "bi bi-phone-vibrate fs-4 text-secondary mt-1";
+                    mLabel3.textContent = "Màu sắc"; mIcon3.className = "bi bi-palette fs-4 text-secondary mt-1";
+                    mLabel4.textContent = "Tính năng"; mIcon4.className = "bi bi-stars fs-4 text-secondary mt-1";
+                    break;
+                default: // Mặc định là Điện thoại (ID 3) hoặc các loại khác
+                    mLabel1.textContent = "Màn hình"; mIcon1.className = "bi bi-display fs-4 text-secondary mt-1";
+                    mLabel2.textContent = "Camera"; mIcon2.className = "bi bi-camera fs-4 text-secondary mt-1";
+                    mLabel3.textContent = "Chip xử lý"; mIcon3.className = "bi bi-cpu fs-4 text-secondary mt-1";
+                    mLabel4.textContent = "Pin & Sạc"; mIcon4.className = "bi bi-battery-charging fs-4 text-secondary mt-1";
+            }
+
+            // 4. Bật Modal
+            var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
+            quickViewModal.show();
                         })
                         .catch(error => {
                             console.error('Có lỗi xảy ra:', error);
@@ -209,64 +235,92 @@
 
 
 
-                    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered"> <div class="modal-content border-0 shadow-lg rounded-4">
+    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
             
-            <div class="modal-header border-0 pb-0 justify-content-end">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            
-            <div class="modal-body p-4 pt-0">
-                <div class="row align-items-center">
+                <div class="modal-body pt-0 px-4 px-md-5 pb-5">
+                    <div class="row g-5">
                     
-                    <div class="col-md-5 text-center mb-4 mb-md-0">
-                        <img id="modalProductImage" src="" alt="Product Image" class="img-fluid" style="max-height: 450px; object-fit: contain;">
-                    </div>
-                    
-                    <div class="col-md-7 ps-md-4">
-                        <h2 id="modalProductName" class="fw-bold mb-2">Tên sản phẩm</h2>
-                        <h4 id="modalProductPrice" class="text-primary fw-bold mb-4">Giá tiền</h4>
+                        <div class="col-md-5 d-flex flex-column align-items-center justify-content-center">
+                            <img id="modalProductImage" src="" class="img-fluid mb-4" alt="Product Image" style="max-height: 450px; object-fit: contain;">
+                            <div class="d-flex gap-2">
+                                <span class="rounded-circle bg-dark" style="width:10px; height:10px;"></span>
+                                <span class="rounded-circle bg-secondary" style="width:10px; height:10px;"></span>
+                                <span class="rounded-circle bg-light border" style="width:10px; height:10px;"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
                         
-                        <ul class="list-unstyled mb-4">
-                            <li class="mb-3 d-flex align-items-start">
-                                <i class="bi bi-display fs-3 me-3 text-secondary"></i>
+                            <div class="d-flex justify-content-between align-items-start border-bottom pb-4 mb-4">
                                 <div>
-                                    <span class="d-block fw-bold text-dark">Màn hình</span>
-                                    <span id="modalScreenSize" class="text-muted">Đang tải...</span>
+                                    <h2 id="modalProductName" class="fw-bold mb-2" style="font-size: 2rem;">Tên Sản Phẩm</h2>
+                                    <p id="modalProductPrice" class="fw-bold mb-0" style="color: #0071e3; font-size: 1.2rem;">Giá tiền</p>
                                 </div>
-                            </li>
-                            <li class="mb-3 d-flex align-items-start">
-                                <i class="bi bi-camera fs-3 me-3 text-secondary"></i>
-                                <div>
-                                    <span class="d-block fw-bold text-dark">Camera</span>
-                                    <span id="modalCameraInfo" class="text-muted">Đang tải...</span>
+                                <a href="#" id="modalBuyBtn" class="btn text-white rounded-pill px-4 py-2 fw-bold" style="background-color: #0071e3; font-size: 0.95rem;">Mua</a>
+                            </div>
+
+                            <div class="d-flex flex-column gap-4" style="font-size: 0.95rem; color: #333;">
+    
+                                <div class="d-flex align-items-start gap-3">
+                                    <i id="modalIcon1" class="bi bi-display fs-4 text-secondary mt-1"></i>
+                                    <div>
+                                        <strong id="modalLabel1">Màn hình</strong>
+                                        <span id="modalScreenSize" class="d-block text-muted mt-1" style="line-height: 1.5;">Đang cập nhật...</span>
+                                    </div>
                                 </div>
-                            </li>
-                            <li class="mb-3 d-flex align-items-start">
-                                <i class="bi bi-cpu fs-3 me-3 text-secondary"></i>
-                                <div>
-                                    <span class="d-block fw-bold text-dark">Chip xử lý</span>
-                                    <span id="modalChipset" class="text-muted">Đang tải...</span>
+    
+                                <div class="d-flex align-items-start gap-3">
+                                    <i id="modalIcon2" class="bi bi-camera fs-4 text-secondary mt-1"></i>
+                                    <div>
+                                        <strong id="modalLabel2">Camera</strong>
+                                        <span id="modalCameraInfo" class="d-block text-muted mt-1" style="line-height: 1.5;">Đang cập nhật...</span>
+                                    </div>
                                 </div>
-                            </li>
-                            <li class="mb-3 d-flex align-items-start">
-                                <i class="bi bi-battery-charging fs-3 me-3 text-secondary"></i>
-                                <div>
-                                    <span class="d-block fw-bold text-dark">Pin & Sạc</span>
-                                    <span id="modalBattery" class="text-muted">Đang tải...</span>
+    
+                                <div class="d-flex align-items-start gap-3">
+                                    <i id="modalIcon3" class="bi bi-cpu fs-4 text-secondary mt-1"></i>
+                                    <div>
+                                        <strong id="modalLabel3">Chip xử lý</strong>
+                                        <span id="modalChipset" class="d-block text-muted mt-1" style="line-height: 1.5;">Đang cập nhật...</span>
+                                    </div>
                                 </div>
-                            </li>
-                        </ul>
-                        
-                        <div class="mt-4">
-                            <a href="#" id="modalBuyBtn" class="btn btn-dark rounded-pill px-5 py-2 fw-bold" style="font-size: 1.1rem;">Mua ngay</a>
+    
+                                <div class="d-flex align-items-start gap-3">
+                                    <i id="modalIcon4" class="bi bi-battery-charging fs-4 text-secondary mt-1"></i>
+                                    <div>
+                                        <strong id="modalLabel4">Pin & Sạc</strong>
+                                        <span id="modalBattery" class="d-block text-muted mt-1" style="line-height: 1.5;">Đang cập nhật...</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="row mt-5 pt-4 border-top" style="font-size: 0.85rem; color: #555;">
+                        <div class="col-md-4 d-flex gap-2 mb-3 mb-md-0">
+                            <i class="bi bi-box-seam text-success fs-5"></i>
+                            <span><strong class="text-dark">Giao hàng miễn phí</strong><br>Áp dụng tận nơi trên toàn quốc.</span>
+                        </div>
+                        <div class="col-md-4 d-flex gap-2 mb-3 mb-md-0">
+                            <i class="bi bi-shield-check text-primary fs-5"></i>
+                            <span><strong class="text-dark">Bảo hành chính hãng</strong><br>Cam kết 12 tháng tại các trung tâm.</span>
+                        </div>
+                        <div class="col-md-4 d-flex gap-2">
+                            <i class="bi bi-arrow-repeat text-warning fs-5"></i>
+                            <span><strong class="text-dark">Thu cũ đổi mới</strong><br>Trợ giá lên đời cao nhất thị trường.</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
+
     <section class="buy-section container mt-5">
         <h2 class="buy-title mb-4">Mua trực tiếp - Nhận ngay ưu đãi</h2>
 

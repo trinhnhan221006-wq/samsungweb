@@ -1,10 +1,41 @@
-﻿@{
+﻿@model samsungweb.Models.Product
+
+@{
     ViewData["Title"] = "Cấu hình sản phẩm";
     Layout = "_Layout";
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/pages/buy.css" />
+    <style>
+        /* Đẩy toàn bộ nội dung trang xuống dưới để không bị Header đè */
+        body {
+            padding-top: 130px !important;
+        }
+        /* --- SỬA LỖI HEADER TÀNG HÌNH CHO TRANG BUY --- */
+        .ss-header {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #ebebeb;
+            z-index: 1030;
+        }
+        
+            /* Đổi chữ menu và TẤT CẢ icon thành màu đen */
+            .ss-header a,
+            .ss-header i,
+            .ss-header svg {
+                color: #000000 !important;
+                fill: #000000 !important;
+            }
+
+            /* Ngoại trừ: Giữ lại màu trắng cho icon trong nút tìm kiếm màu đen */
+            .ss-header .btn-dark i,
+            .ss-header .btn-dark svg,
+            .ss-header button[type="submit"] i,
+            .ss-header button[type="submit"] svg {
+                color: #ffffff !important;
+                fill: #ffffff !important;
+            }
+    </style>
 }
 
 <div class="container mt-5 pb-5 mb-5">
@@ -12,14 +43,14 @@
         
         <div class="col-md-7 pe-md-5">
             <div class="sticky-image-container">
-                <img id="mainProductImage" src="~/images/S26Ultra.jpg" class="img-fluid rounded-4" alt="Galaxy S26 Ultra" />
+                <img id="mainProductImage" src="~/images/@Model.ImageUrl" class="img-fluid rounded-4" alt="@Model.Name" />
             </div>
         </div>
 
         <div class="col-md-5">
             <span class="badge bg-primary rounded-pill mb-2">MỚI</span>
-            <h1 class="fw-bold mb-1">Galaxy S26 Ultra</h1>
-            <p class="fs-4 fw-bold text-dark mb-4" id="totalPriceDisplay">42.000.000 VNĐ</p>
+            <h1 class="fw-bold mb-1">@Model.Name</h1>
+            <p class="fs-4 fw-bold text-dark mb-4" id="totalPriceDisplay">@Model.Price.ToString("N0") VNĐ</p>
 
             <div class="config-section mb-4">
                 <h5 class="fw-bold mb-3">1. Chọn Dung lượng</h5>
@@ -70,13 +101,13 @@
 <div class="bottom-checkout-bar shadow-lg">
     <div class="container d-flex justify-content-between align-items-center">
         <div class="d-none d-md-block">
-            <span class="fs-5 fw-bold d-block">Galaxy S26 Ultra</span>
+            <span class="fs-5 fw-bold d-block">@Model.Name</span>
             <span class="text-muted small" id="bottomSummary">256GB | Tím Titanium</span>
         </div>
         <div class="d-flex align-items-center gap-3 gap-md-4 ms-auto">
             <div class="text-end">
                 <span class="d-block text-muted small">Tổng tiền:</span>
-                <span class="fs-4 fw-bold text-primary" id="bottomPrice">42.000.000 VNĐ</span>
+                <span class="fs-4 fw-bold text-primary" id="bottomPrice">@Model.Price.ToString("N0") VNĐ</span>
             </div>
             <button class="btn btn-dark rounded-pill px-4 px-md-5 py-2 fw-bold fs-5" id="btnAddToCart">Thêm vào giỏ</button>
         </div>
@@ -87,7 +118,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 1. KHỞI TẠO DỮ LIỆU BAN ĐẦU
-            const basePrice = 42000000; // Giá gốc phiên bản thấp nhất
+            const basePrice = @Model.Price; // Giá gốc phiên bản thấp nhất
             let currentCapacityPrice = 0; // Giá cộng thêm của dung lượng
             let currentServicePrice = 0;  // Giá gói bảo hành
             

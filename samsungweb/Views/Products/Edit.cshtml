@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -25,32 +25,43 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label class="control-label fw-bold">Hình ảnh sản phẩm</label>
-                <input type="file" name="frontImage" class="form-control" accept="image/*" />
+                <label class="control-label">Hình ảnh sản phẩm</label>
+    
+                <input type="hidden" asp-for="ImageUrl" />
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="mb-2">
+                        <img src="~/images/@Model.ImageUrl" alt="Current Image" style="max-height: 100px; border-radius: 8px;" />
+                        <small class="text-muted d-block">Ảnh hiện tại</small>
+                    </div>
+                }
+
+                <input type="file" name="imageFile" class="form-control" />
             </div>
             <hr />
             <h5 class="text-primary">Thông số kỹ thuật chi tiết (Tùy chọn)</h5>
             
             <div class="form-group mb-3">
-                <label asp-for="ScreenSize" class="control-label fw-bold"></label>
+                <label asp-for="ScreenSize" id="labelScreen" class="control-label fw-bold"></label>
                 <input asp-for="ScreenSize" class="form-control" placeholder="VD: 6.8 inch Dynamic AMOLED 2X..." />
                 <span asp-validation-for="ScreenSize" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="CameraInfo" class="control-label fw-bold"></label>
+                <label asp-for="CameraInfo" id="labelCamera" class="control-label fw-bold"></label>
                 <textarea asp-for="CameraInfo" class="form-control" rows="3" placeholder="VD: Hệ thống camera pro 200MP..."></textarea>
                 <span asp-validation-for="CameraInfo" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Chipset" class="control-label fw-bold"></label>
+                <label asp-for="Chipset" id="labelChip" class="control-label fw-bold"></label>
                 <input asp-for="Chipset" class="form-control" placeholder="VD: Snapdragon 8 Gen 4..." />
                 <span asp-validation-for="Chipset" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Battery" class="control-label fw-bold"></label>
+                <label asp-for="Battery" id="labelBattery" class="control-label fw-bold"></label>
                 <input asp-for="Battery" class="form-control" placeholder="VD: 5000 mAh, sạc nhanh 45W..." />
                 <span asp-validation-for="Battery" class="text-danger"></span>
             </div>

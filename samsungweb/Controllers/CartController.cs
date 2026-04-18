@@ -85,5 +85,46 @@ namespace samsungweb.Controllers
 
             return RedirectToAction("Index"); // Tải lại trang Giỏ hàng
         }
+
+
+        // 1. HÀM TĂNG SỐ LƯỢNG (+)
+        public IActionResult Increase(int id, string color, string capacity)
+        {
+            // Đổi thành .Get thay vì .GetObjectFromJson
+            var cart = HttpContext.Session.Get<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            var item = cart.FirstOrDefault(c => c.ProductId == id && c.SelectedColor == color && c.SelectedCapacity == capacity);
+
+            if (item != null)
+            {
+                item.Quantity++;
+                // Đổi thành .Set thay vì .SetObjectAsJson
+                HttpContext.Session.Set("Cart", cart);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // 2. HÀM GIẢM SỐ LƯỢNG (-)
+        public IActionResult Decrease(int id, string color, string capacity)
+        {
+            var cart = HttpContext.Session.Get<List<CartItem>>("Cart") ?? new List<CartItem>();
+            var item = cart.FirstOrDefault(c => c.ProductId == id && c.SelectedColor == color && c.SelectedCapacity == capacity);
+
+            if (item != null)
+            {
+                if (item.Quantity > 1)
+                {
+                    item.Quantity--;
+                }
+                else
+                {
+                    cart.Remove(item);
+                }
+                HttpContext.Session.Set("Cart", cart);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

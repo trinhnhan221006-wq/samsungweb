@@ -125,21 +125,26 @@ namespace samsungweb.Controllers
             {
                 id = product.Id,
                 name = product.Name,
-                price = product.Price.ToString("N0") + " VNĐ", // Định dạng tiền luôn
+                price = product.Price.ToString("N0") + " VNĐ",
                 imageUrl = product.ImageUrl,
                 screenSize = product.ScreenSize,
                 cameraInfo = product.CameraInfo,
                 chipset = product.Chipset,
-                battery = product.Battery
+                battery = product.Battery, // Thêm dấu phẩy ở đây
+                categoryId = product.CategoryId // Đổi 'p' thành 'product' ở đây
             });
         }
 
         [HttpGet]
         public IActionResult Buy(int id)
         {
-            // Tạm thời truyền ID này sang View để Giai đoạn 3 chúng ta gọi Database
-            ViewBag.ProductId = id;
-            return View();
+            // Tìm đúng sản phẩm theo ID người dùng bấm vào
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null) return NotFound();
+
+            // Truyền cục dữ liệu 'product' này sang View Buy.cshtml
+            return View(product);
         }
     }
 }

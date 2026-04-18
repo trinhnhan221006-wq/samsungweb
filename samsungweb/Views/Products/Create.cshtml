@@ -53,26 +53,26 @@
             <h5 class="text-primary">Thông số kỹ thuật chi tiết (Tùy chọn)</h5>
             
             <div class="form-group mb-3">
-                <label asp-for="ScreenSize" class="control-label fw-bold"></label>
-                <input asp-for="ScreenSize" class="form-control" placeholder="VD: 6.8 inch Dynamic AMOLED 2X..." />
+                <label asp-for="ScreenSize" id="labelScreen" class="control-label fw-bold"></label>
+                <input asp-for="ScreenSize" class="form-control"/>
                 <span asp-validation-for="ScreenSize" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="CameraInfo" class="control-label fw-bold"></label>
-                <textarea asp-for="CameraInfo" class="form-control" rows="3" placeholder="VD: Hệ thống camera pro 200MP..."></textarea>
+                <label asp-for="CameraInfo" id="labelCamera" class="control-label fw-bold"></label>
+                <textarea asp-for="CameraInfo" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="CameraInfo" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Chipset" class="control-label fw-bold"></label>
-                <input asp-for="Chipset" class="form-control" placeholder="VD: Snapdragon 8 Gen 4..." />
+                <label asp-for="Chipset" id="labelChip" class="control-label fw-bold"></label>
+                <input asp-for="Chipset" class="form-control" />
                 <span asp-validation-for="Chipset" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Battery" class="control-label fw-bold"></label>
-                <input asp-for="Battery" class="form-control" placeholder="VD: 5000 mAh, sạc nhanh 45W..." />
+                <label asp-for="Battery" id="labelBattery" class="control-label fw-bold"></label>
+                <input asp-for="Battery" class="form-control"/>
                 <span asp-validation-for="Battery" class="text-danger"></span>
             </div>
             <hr />
@@ -94,5 +94,64 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lấy các phần tử cần điều khiển
+        const categorySelect = document.querySelector('select[name="CategoryId"]');
+        const labelScreen = document.getElementById('labelScreen');
+        const labelCamera = document.getElementById('labelCamera');
+        const labelChip = document.getElementById('labelChip');
+        const labelBattery = document.getElementById('labelBattery');
+
+        function updateAdminLabels() {
+            const catId = categorySelect.value;
+
+            // Logic đổi tên nhãn dựa trên CategoryId [cite: 52]
+            switch (catId) {
+                case "4": // TV & AV
+                    labelScreen.textContent = "Công nghệ màn hình (OLED, QLED...)";
+                    labelCamera.textContent = "Độ phân giải (4K, 8K...)";
+                    labelChip.textContent = "Bộ xử lý hình ảnh";
+                    labelBattery.textContent = "Công suất tiêu thụ điện";
+                    break;
+                case "5": // Gia dụng (Tủ lạnh)
+                    labelScreen.textContent = "Dung tích tổng (Lít)";
+                    labelCamera.textContent = "Công nghệ làm lạnh";
+                    labelChip.textContent = "Kháng khuẩn & Khử mùi";
+                    labelBattery.textContent = "Kích thước (Dài x Rộng x Cao)";
+                    break;
+                case "6": // IT (Màn hình máy tính)
+                    labelScreen.textContent = "Tấm nền & Tần số quét";
+                    labelCamera.textContent = "Độ phân giải";
+                    labelChip.textContent = "Cổng kết nối";
+                    labelBattery.textContent = "Độ sáng & Tương phản";
+                    break;
+                case "7": // Thiết bị đeo (Đồng hồ)
+                    labelScreen.textContent = "Loại màn hình & Kích thước mặt";
+                    labelCamera.textContent = "Tính năng sức khỏe";
+                    labelChip.textContent = "Hệ điều hành & Vi xử lý";
+                    labelBattery.textContent = "Thời lượng Pin";
+                    break;
+                case "8": // Phụ kiện (Ốp lưng)
+                    labelScreen.textContent = "Chất liệu (Silicon, Da...)";
+                    labelCamera.textContent = "Dòng máy tương thích";
+                    labelChip.textContent = "Màu sắc & Họa tiết";
+                    labelBattery.textContent = "Tính năng (Chống sốc...)";
+                    break;
+                default: // Mặc định là Di động (ID = 3) [cite: 51]
+                    labelScreen.textContent = "Kích thước màn hình";
+                    labelCamera.textContent = "Thông số Camera";
+                    labelChip.textContent = "Chip xử lý (CPU)";
+                    labelBattery.textContent = "Dung lượng Pin & Sạc";
+            }
+        }
+
+        // Kích hoạt khi thay đổi danh mục và khi vừa load trang
+        categorySelect.addEventListener('change', updateAdminLabels);
+        updateAdminLabels();
+    });
+</script>
+
 }
 </div>

@@ -2,39 +2,62 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "_LayoutAdmin";
 }
 
-<h1>Create</h1>
+@section Styles {
+    <style>
+        .ss-header {
+            position: relative !important;
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #ebebeb;
+        }
+        .ss-header a, .ss-header .ss-search-bar i { color: #000000 !important; }
+        
+        .admin-container {
+            padding: 50px 5%;
+            min-height: 60vh;
+        }
+    </style>
+}
 
-<h4>HomeDisplay</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <select asp-for="ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Section" class="control-label"></label>
-                <input asp-for="Section" class="form-control" />
-                <span asp-validation-for="Section" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DisplayOrder" class="control-label"></label>
-                <input asp-for="DisplayOrder" class="form-control" />
-                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="admin-container">
+    <h2 class="fw-bold">Thêm sản phẩm ra Trang chủ</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6"> 
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="ProductId" class="control-label fw-bold">Chọn Sản phẩm</label>
+                    <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId">
+                        <option value="">-- Chọn sản phẩm có sẵn --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="Section" class="control-label fw-bold">Vị trí hiển thị</label>
+                    <select asp-for="Section" class="form-control">
+                        <option value="1">Khối 1: Điện thoại Di động</option>
+                        <option value="2">Khối 2: TV & Màn hình</option>
+                    </select>
+                    <span asp-validation-for="Section" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="DisplayOrder" class="control-label fw-bold">Thứ tự hiển thị (Số nhỏ xếp trước)</label>
+                    <input asp-for="DisplayOrder" class="form-control" type="number" value="0" />
+                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-4">
+                    <input type="submit" value="Lưu hiển thị" class="btn btn-primary px-4" />
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Trở lại danh sách</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

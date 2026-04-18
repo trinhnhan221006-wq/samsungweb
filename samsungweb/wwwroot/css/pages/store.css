@@ -357,18 +357,3 @@
     .offer-card:hover {
         transform: translateY(-5px);
     }
-/* --- SỬA LỖI NÚT MUA NGAY TRONG MODAL --- */
-#modalBuyBtn {
-    background-color: #000000 !important; /* Đổ nền đen cho nút thật nổi bật */
-    color: #ffffff !important; /* Chữ trắng hiển thị rõ ràng */
-    border: 1px solid #000000 !important;
-    opacity: 1 !important; /* Ép không cho mờ */
-    transition: all 0.3s ease;
-}
-
-    /* Hiệu ứng khi di chuột vào (Hover) */
-    #modalBuyBtn:hover {
-        background-color: #333333 !important; /* Đổi màu xám đậm sang trọng */
-        color: #ffffff !important;
-        border-color: #333333 !important;
-    }
